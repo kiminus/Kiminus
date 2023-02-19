@@ -1,3 +1,3 @@
 # Zilin liu
 
-download transcript [here]("academichistoryreviewpdf (1).pdf")
+download transcript [here](academichistoryreviewpdf.pdf)
