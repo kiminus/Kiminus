@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D array grid</title>
+    <link rel="stylesheet" href="grid-visual.css">
+</head>
+
+<body>
+
+    <h1>2D array grid</h1>
+    <form>
+        <label for="2DArray">2D array input:</label><br>
+        <input type="text" name="2DArray" id="2DArray" value="[[7,2,3,1,2],[6,5,4,2,1]]"
+            onchange="generateGridVisualFrom2DArray(JSON.parse(this.value))" onsubmit="
+            generateGridVisualFrom2DArray(JSON.parse(this.value))">
+    </form>
+    <div id="grid-visual">
+
+    </div>
+    <script src="CSscripts.js"></script>
+
+</body>
+
+</html>
