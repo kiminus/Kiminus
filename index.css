@@ -7,6 +7,7 @@
   --tertiary-color: #8da9c4;
   --important-color: #b76d68;
   --info-color: #5e8c61;
+  --gold-color: rgb(255, 251, 0);
 }
 
 /*override default*/
@@ -326,6 +327,7 @@ body {
   );
   color: var(--primary-color);
   border: 3px var(--info-color);
+  margin: 5% 3%;
   .card-img {
     height: 50%;
     width: 70%;
@@ -365,13 +367,14 @@ body {
     flex-direction: column;
     position: relative;
     margin: 1rem;
+    color: var(--background-color);
   }
 
   @media (min-width: 768px) {
     .timeline-steps .timeline-step:not(:last-child):after {
       content: '';
       display: block;
-      border-top: 0.25rem dotted #3b82f6;
+      border-top: 0.25rem dashed var(--gold-color);
       width: 3.46rem;
       position: absolute;
       left: 7.5rem;
@@ -380,7 +383,7 @@ body {
     .timeline-steps .timeline-step:not(:first-child):before {
       content: '';
       display: block;
-      border-top: 0.25rem dotted #3b82f6;
+      border-top: 0.25rem dashed var(--gold-color);
       width: 3.8125rem;
       position: absolute;
       right: 7.5rem;
@@ -400,17 +403,45 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #3b82f6;
+    background-color: var(--gold-color);
   }
 
   .timeline-steps .timeline-content .inner-circle:before {
     content: '';
-    background-color: #3b82f6;
+    background-color: var(--gold-color);
     display: inline-block;
     height: 3rem;
     width: 3rem;
     min-width: 3rem;
     border-radius: 6.25rem;
     opacity: 0.5;
+  }
+}
+
+#skills-container {
+  white-space: nowrap;
+  padding: 10% 5%;
+  background-color: var(--secondary-color);
+  border-width: 0;
+  #skill-box {
+    background: linear-gradient(
+      147deg,
+      var(--background-color) 0%,
+      var(--secondary-color) 100%
+    );
+    color: var(--primary-color);
+    border-width: 0;
+  }
+  #lang-box {
+    background: linear-gradient(
+      213deg,
+      var(--background-color) 0%,
+      var(--secondary-color) 100%
+    );
+    color: var(--primary-color);
+    border-width: 0;
+  }
+  .progress-bar {
+    background-color: var(--important-color);
   }
 }
