@@ -278,6 +278,7 @@ body {
     font-size: 2rem;
     border: 0px;
     text-align: justify;
+    color: var(--primary-color);
 
     .list-group-item-level-1 {
       margin-left: 190px;
