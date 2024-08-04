@@ -17,11 +17,13 @@
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/247da32b68.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="asset/css/index.css">
+
     <title>Portfolio</title>
 </head>
 
 <body>
+
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-title h2-font animate-hover-enlarge text-center col-lg-2 col-md-3" href="#">Zilin Liu</a>
@@ -36,7 +38,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item animate-hover-enlarge col-lg-3">
-                        <a class="nav-link" href="Resume-Game.pdf">Resume(s)</a>
+                        <a class="nav-link" href="asset/documents/Resume-Game.pdf">Resume(s)</a>
                     </li>
                     <li class="nav-item dropdown animate-hover-enlarge col-lg-3">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -60,7 +62,8 @@
                             Downloads
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="academichistoryreviewpdf.pdf">transcript</a></li>
+                            <li><a class="dropdown-item"
+                                    href="asset/documents/academichistoryreviewpdf.pdf">transcript</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -73,169 +76,170 @@
     </nav>
 
 
-    <div class="row" id="intro-container">
-        <div class="col-lg-6">
-            <h1 class="animate__animated animate__fadeInDown">Hi, There</h1>
-            <p class="animate__animated animate__fadeInUp" id="self-intro">
-                I am zilin liu, a Junior undergraduate Computer Engineering student in UCSD. I am interested in Game
-                and software development. My project focus on the user interaction with the project content.
-            </p>
+    <div>
+        <div class="row" id="intro-container">
+            <div class="col-lg-6">
+                <h1 class="animate__animated animate__fadeInDown">Hi, There</h1>
+                <p class="animate__animated animate__fadeInUp" id="self-intro">
+                    I am zilin liu, a Junior undergraduate Computer Engineering student in UCSD. I am interested in Game
+                    and software development. My project focus on the user interaction with the project content.
+                </p>
+            </div>
+            <div class="col-lg-6 animate__animated animate__fadeInLeft">
+                <img id="title-image" src="asset/image/sample_portrait.jpg" alt="sample portrait">
+            </div>
         </div>
-        <div class="col-lg-6 animate__animated animate__fadeInLeft">
-            <img id="title-image" src="asset/image/sample_portrait.jpg" alt="sample portrait">
-        </div>
-    </div>
 
-    <div id="skills-container" class="row">
-        <div class="card col-lg-8" id="skill-box">
-            <div class="card-header">
-                <div class="pull-left">
-                    <h4 class="mt-2">Skills</h4>
-                    <span class="line"></span>
+        <div id="skills-container" class="row">
+            <div class="card col-lg-8" id="skill-box">
+                <div class="card-header">
+                    <div class="pull-left">
+                        <h4 class="mt-2">Skills</h4>
+                        <span class="line"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body p-3 row">
-                <div class="skill-col col-lg-6">
-                    <h6>Java</h6>
-                    <div class="progress mb-3">
-                        <div class="progress-bar" role="progressbar" style="width: 95%" aria-valuenow="25"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h6>C#</h6>
-                    <div class="progress mb-3">
-                        <div class="progress-bar " role="progressbar" style="width: 90%" aria-valuenow="25"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h6>Unity Engine</h6>
-                    <div class="progress mb-3">
-                        <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="50"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h6>Linux/Bash/Shell commands</h6>
-                    <div class="progress mb-3">
-                        <div class="progress-bar  " role="progressbar" style="width: 80%" aria-valuenow="75"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h6>python</h6>
-                    <div class="progress mb-3">
-                        <div class="progress-bar " role="progressbar" style="width: 80%" aria-valuenow="25"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h6>React</h6>
-                    <div class="progress mb-3">
-                        <div class="progress-bar  " role="progressbar" style="width: 75%" aria-valuenow="25"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
+                <div class="card-body p-3 row">
+                    <div class="skill-col col-lg-6">
+                        <h6>Java</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar" role="progressbar" style="width: 95%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>C#</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 90%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Unity Engine</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="50"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Linux/Bash/Shell commands</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar  " role="progressbar" style="width: 80%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>python</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 80%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>React</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar  " role="progressbar" style="width: 75%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
 
-                </div>
-                <div class="skill-col col-lg-6">
-                    <h6>SQL</h6>
-                    <div class="progress mb-3">
-                        <div class="progress-bar  " role="progressbar" style="width: 70%" aria-valuenow="75"
-                            aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
+                    <div class="skill-col col-lg-6">
+                        <h6>SQL</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar  " role="progressbar" style="width: 70%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
 
-                    <h6>Javascript</h6>
+                        <h6>Javascript</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 70%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>HTML5, CSS</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 70%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Bootstrap</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 70%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>C++</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar  " role="progressbar" style="width: 65%" aria-valuenow="50"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Go</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar  " role="progressbar" style="width: 60%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-lg-4" id="lang-box">
+                <div class="card-header">
+                    <div class="pull-left">
+                        <h4 class="mt-2">Languages</h4>
+                        <span class="line"></span>
+                    </div>
+                </div>
+                <div class="card-body pb-2">
+                    <h6>Chinese(Mandarin)</h6>
                     <div class="progress mb-3">
-                        <div class="progress-bar " role="progressbar" style="width: 70%" aria-valuenow="75"
+                        <div class="progress-bar  " role="progressbar" style="width: 100%" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <h6>HTML5, CSS</h6>
+                    <h6>English</h6>
                     <div class="progress mb-3">
-                        <div class="progress-bar " role="progressbar" style="width: 70%" aria-valuenow="75"
+                        <div class="progress-bar  " role="progressbar" style="width: 96%" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <h6>Bootstrap</h6>
+                    <h6>Spanish</h6>
                     <div class="progress mb-3">
-                        <div class="progress-bar " role="progressbar" style="width: 70%" aria-valuenow="75"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h6>C++</h6>
-                    <div class="progress mb-3">
-                        <div class="progress-bar  " role="progressbar" style="width: 65%" aria-valuenow="50"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h6>Go</h6>
-                    <div class="progress mb-3">
-                        <div class="progress-bar  " role="progressbar" style="width: 60%" aria-valuenow="75"
+                        <div class="progress-bar  " role="progressbar" style="width: 30%" aria-valuenow="50"
                             aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card col-lg-4" id="lang-box">
-            <div class="card-header">
-                <div class="pull-left">
-                    <h4 class="mt-2">Languages</h4>
-                    <span class="line"></span>
-                </div>
-            </div>
-            <div class="card-body pb-2">
-                <h6>Chinese(Mandarin)</h6>
-                <div class="progress mb-3">
-                    <div class="progress-bar  " role="progressbar" style="width: 100%" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h6>English</h6>
-                <div class="progress mb-3">
-                    <div class="progress-bar  " role="progressbar" style="width: 96%" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h6>Spanish</h6>
-                <div class="progress mb-3">
-                    <div class="progress-bar  " role="progressbar" style="width: 30%" aria-valuenow="50"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row" id="roadmap-container">
-        <div class="col">
-            <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
-                <div class="timeline-step">
-                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
-                        title="">
-                        <div class="inner-circle"></div>
-                        <p class="h6 mt-3 mb-1">2022</p>
-                        <p class="h6 text-muted mb-0 mb-lg-0">undergraduate in UCSD</p>
+        <div class="row" id="roadmap-container">
+            <div class="col">
+                <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                    <div class="timeline-step">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
+                            title="">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">2022</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">undergraduate in UCSD</p>
+                        </div>
                     </div>
-                </div>
-                <div class="timeline-step">
-                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
-                        title="">
-                        <div class="inner-circle"></div>
-                        <p class="h6 mt-3 mb-1">2022 fall</p>
-                        <p class="h6 text-muted mb-0 mb-lg-0">developed Talis Stand</p>
+                    <div class="timeline-step">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
+                            title="">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">2022 fall</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">developed Talis Stand</p>
+                        </div>
                     </div>
-                </div>
-                <div class="timeline-step">
-                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
-                        title="">
-                        <div class="inner-circle"></div>
-                        <p class="h6 mt-3 mb-1">2023</p>
-                        <p class="h6 text-muted mb-0 mb-lg-0">Game Jam</p>
+                    <div class="timeline-step">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
+                            title="">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">2023</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">Game Jam</p>
+                        </div>
                     </div>
-                </div>
-                <div class="timeline-step">
-                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
-                        title="">
-                        <div class="inner-circle"></div>
-                        <p class="h6 mt-3 mb-1">2023 Summer</p>
-                        <p class="h6 text-muted mb-0 mb-lg-0">Internship in DigitalOcean</p>
+                    <div class="timeline-step">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
+                            title="">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">2023 Summer</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">Internship in DigitalOcean</p>
+                        </div>
                     </div>
-                </div>
-                <div class="timeline-step mb-0">
-                    <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
-                        title="" data-content="And here's some amazing content. It's very engaging. Right?"
-                        data-original-title="2020">
-                        <div class="inner-circle"></div>
-                        <p class="h6 mt-3 mb-1">2024</p>
-                        <p class="h6 text-muted mb-0 mb-lg-0">now</p>
+                    <div class="timeline-step mb-0">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
+                            title="" data-content="And here's some amazing content. It's very engaging. Right?"
+                            data-original-title="2020">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">2024</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">now</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <div id="keypoints-list">
         <div class='col-lg-3' id="ring">
@@ -244,18 +248,20 @@
             </div>
         </div>
         <div class="list-group col-lg-9" id="keypoints-menu-list">
-            <a href="#" class="list-group-item  list-group-item-secondary animate-enlarge-shadow" aria-current="true">
+            <a class="list-group-item  list-group-item-secondary animate-enlarge-shadow" aria-current="true"
+                id="creative-keypoint">
                 <p class="list-group-item-level-1 btn-content">Creative</p>
             </a>
-            <a href="#" class="list-group-item  list-group-item-primary animate-enlarge-shadow">
+            <a class="list-group-item  list-group-item-primary animate-enlarge-shadow" id="friendly-keypoint">
                 <p class="list-group-item-level-2 btn-content">Friendly</p>
             </a>
-            <a href="#" class="list-group-item  list-group-item-primary animate-enlarge-shadow">
+            <a class="list-group-item  list-group-item-primary animate-enlarge-shadow" id="fast-learner-keypoint">
                 <p class="list-group-item-level-3 btn-content">Fast learner</p>
             </a>
-            <a href="#" class="list-group-item  list-group-item-primary list-group-item-level-2 animate-enlarge-shadow">
+            <a class="list-group-item  list-group-item-primary list-group-item-level-2 animate-enlarge-shadow"
+                id="teamwork-keypoint">
                 <p class="list-group-item-level-2 btn-content">Teamwork</p>
-            </a><a href="#" class="list-group-item list-group-item-primary animate-enlarge-shadow">
+            </a><a class="list-group-item list-group-item-primary animate-enlarge-shadow" id="adaptability-keypoint">
                 <p class="list-group-item-level-1 btn-content">Adaptability</p>
             </a>
         </div>
@@ -319,6 +325,8 @@
             </a>
         </div>
     </div>
+    <script rel="text/Javascript" src="asset/js/index.js"></script>
+
 </body>
 <footer class="text-center">
     <h6>Follow me at</h6>
