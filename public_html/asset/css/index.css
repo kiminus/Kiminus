@@ -255,17 +255,6 @@ body {
 #keypoints-list {
   padding: 10% 0px;
   white-space: nowrap;
-  #ring {
-    display: inline-block;
-    position: relative;
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
-    border: 5px, solid, white;
-    left: -250px;
-    background-color: var(--background-secondary-color);
-    z-index: 20;
-  }
   #ring-center-text {
     display: inline-block;
     position: relative;
@@ -273,34 +262,18 @@ body {
     font-weight: 1000;
     font-size: 3rem;
     margin-right: 10px;
-    margin-left: 55%;
+    margin-left: 30%;
     width: 150px;
+    margin-bottom: 20px;
   }
-  #keypoints-menu-list {
-    display: inline-block;
-    position: relative;
-    align-items: left;
-    width: 100%;
-    left: -500px;
-  }
+
   .list-group-item {
     background-color: var(--background-color);
-    padding: 18px 0px;
-    bottom: -150px;
+    padding: 20px 29px;
     font-size: 2rem;
     border: 0px;
     text-align: justify;
     color: var(--primary-color);
-
-    .list-group-item-level-1 {
-      margin-left: 190px;
-    }
-    .list-group-item-level-2 {
-      padding-left: 260px;
-    }
-    .list-group-item-level-3 {
-      padding-left: 300px;
-    }
   }
   .keypoints-desc {
     font-size: 1rem;
