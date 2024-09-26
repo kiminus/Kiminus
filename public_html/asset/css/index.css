@@ -94,6 +94,12 @@ a:active {
     z-index: -1;
   }
 }
+
+#btn-to-projects {
+  animation-delay: 1s;
+  margin-top: 20px;
+  font-size: 20px;
+}
 .animate-button-flash {
   position: relative;
   cursor: pointer;
