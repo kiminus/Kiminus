@@ -95,10 +95,14 @@ a:active {
   }
 }
 
-#btn-to-projects {
+.btn-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   animation-delay: 1s;
-  margin-top: 20px;
   font-size: 20px;
+  margin: 20px 10px;
 }
 .animate-button-flash {
   position: relative;

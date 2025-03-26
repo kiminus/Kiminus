@@ -59,7 +59,11 @@ extra:
 
 copyright: "© 2021 Zilin Liu"
 
-
-plugins:
-  - search
-  - include-markdown
+nav:
+  - Index: index.html
+  - Home: home.md
+  - LeetCode:
+    - Overview: leetcode/index.md
+    - Sorting:
+        sort linked list: leetcode/sorting/sort_list.md
+  - Notes: notes/index.md

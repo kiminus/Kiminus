@@ -1,5 +1,6 @@
-public_html/asset/documents/original
+docs/docs/documents/original
 node_modules
-public_html/asset/documents/'recommendation letters'
+docs/docs/documents/recommendation letters
+docs/docs/documents/portfolio.pptx
 venv
 .idea

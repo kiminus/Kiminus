@@ -1,5 +1,7 @@
 # Welcome to My Docs
-This is the home page of my documentation. `here` 
+!!! Note Legacy Web Page
+    [link to legacy page](index.html)
+
 ### tests
 hello :smile:
 

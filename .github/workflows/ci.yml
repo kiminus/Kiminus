@@ -2,8 +2,7 @@ name: ci
 on:
   push:
     branches:
-      - master
-      - main
+      - '*'
 permissions:
   contents: write
 jobs:
@@ -27,6 +26,6 @@ jobs:
             mkdocs-material-
       - name: Serve MkDocs
         run: |
-          pip install mkdocs-material
+          pip install mkdocs-material mkdocs
           cd docs
           mkdocs gh-deploy --force
