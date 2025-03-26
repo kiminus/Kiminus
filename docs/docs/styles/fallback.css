@@ -1,0 +1,42 @@
+/* ================================= */
+/* == Notion-like Styles for MkDocs == */
+/* ================================= */
+
+/* === Theme Variables === */
+:root {
+    /* Typography */
+    --font-title: "Poppins", "Inter", sans-serif;
+    --font-text: "Roboto", "Open Sans", sans-serif;
+    --font-code: "Fira Code", "JetBrains Mono", "Courtier", monospace;
+
+    /* Theme Colors */
+    --color-background: #ffffff;
+    --color-text: #1A202C;
+    --color-title: #121417;
+    --color-subtitle: #4A5568;
+    --color-inline-code: #eb5757;
+    --color-code-background: #f5f5f4;
+    --color-border: #E2E8F0;
+
+    --color-info: #3182CE;
+    --color-warning: #D69E2E;
+    --color-error: #E53E3E;
+    --color-success: #38A169;
+}
+code {
+    font-family: var(--font-code), monospace;
+    color: var(--color-inline-code);
+    background-color: var(--color-code-background);
+    &.hljs {
+        background-color: var(--color-code-background);
+    }
+}
+a {
+    color: var(--color-info);
+}
+h1, h2, h3 {
+    font-family: var(--font-title), sans-serif;
+}
+h4, h5, h6 {
+    font-family: var(--font-title), sans-serif;
+}

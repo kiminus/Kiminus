@@ -1,2 +1,5 @@
 public_html/asset/documents/original
 node_modules
+public_html/asset/documents/'recommendation letters'
+venv
+.idea
