@@ -6,6 +6,8 @@ theme:
     code: Fira Code
   logo: assets/icon.png
   favicon: assets/favicon.ico
+  icon:
+    annotation: material/plus-circle
   palette:
     # Dark mode
     - scheme: slate
@@ -50,11 +52,25 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - footnotes
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - md_in_html
+  - pymdownx.arithmatex:
+      generic: true
 
 extra:
   social:
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/zilin-l-17b71022b/
+
+extra_javascript:
+  - js/katex.js
+  - https://unpkg.com/katex@0/dist/katex.min.js
+  - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+
+extra_css:
+  - https://unpkg.com/katex@0/dist/katex.min.css
 
 
 copyright: "© 2021 Zilin Liu"
@@ -65,5 +81,25 @@ nav:
   - LeetCode:
     - Overview: leetcode/index.md
     - Sorting:
-        sort linked list: leetcode/sorting/sort_list.md
-  - Notes: notes/index.md
+      - sort linked list: leetcode/sorting/sort_list.md
+  - Notes:
+    - Overview: notes/index.md
+    - Angular:
+      - Overview: notes/angular/index.md
+      - Platform:
+          - CLI: notes/angular/cli.md
+      - Material Components: notes/angular/material_component.md
+    - Typescript:
+      - Overview: notes/typescript/index.md
+      - Decorator: notes/typescript/decorator.md
+    - MKDocs:
+      - Overview: notes/mkdocs/index.md
+      - Common Errors: notes/mkdocs/common_errors.md
+  - Class Notes:
+    - Overview: class_notes/index.md
+    - CSE 142:
+      - Overview: class_notes/CSE142/index.md
+      - Cache: class_notes/CSE142/cache.md
+      - Cache Aware Programming: class_notes/CSE142/cache_aware_programming.md
+      - pipelining: class_notes/CSE142/pipeline.md
+      - Parallelism: class_notes/CSE142/parallelism.md
