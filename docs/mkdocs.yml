@@ -63,6 +63,9 @@ extra:
   social:
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/zilin-l-17b71022b/
+  meta:
+    - name: robots
+      content: noindex, nofollow
 
 extra_javascript:
   - js/katex.js
