@@ -65,7 +65,8 @@ extra:
       link: https://www.linkedin.com/in/zilin-l-17b71022b/
   meta:
     - name: robots
-      content: noindex, nofollow
+      content: "noindex, nofollow"
+  generator: false
 
 extra_javascript:
   - js/katex.js

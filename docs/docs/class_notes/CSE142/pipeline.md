@@ -25,7 +25,7 @@ recall: IC - set up programming, CPI - this design: 6/good design = 1, CT - larg
 
 example: what is CPI in this design:
 
-![image.png](pipeline/image.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image.png)
 
 - the CPI is 6, the cycles: fetch → decode → RF read → execution/memory → RF write → update PC
 
@@ -84,7 +84,7 @@ If the prediction was incorrect, the processor squashes instructions on the misp
     
     ### IEM 0.6
     
-    ![image.png](pipeline/image%201.png)
+    ![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%201.png)
     
     - a branch detector is used to make predictions based on prior branch outcomes
         - fetch: predecode and predict next PC
@@ -95,7 +95,7 @@ If the prediction was incorrect, the processor squashes instructions on the misp
         - dont change prediction after one misinterpretation
         - account for history of branch behavior, and global pattern of branch behavior…
         
-        ![image.png](pipeline/image%202.png)
+        ![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%202.png)
         
 - **data hazards:** execution stage does not have operand it requires
     
@@ -135,7 +135,7 @@ If the prediction was incorrect, the processor squashes instructions on the misp
 
 example: which pair of uOPs can execute in reverse order?
 
-![image.png](pipeline/image%203.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%203.png)
 
 - E
 
@@ -196,7 +196,7 @@ example: which pair of uOPs can execute in reverse order?
 7. **(g) Edges represent a requirement that one instruction execute before another.** ✅
     - **True.** Edges denote **data dependencies (RAW), anti-dependencies (WAR), and output dependencies (WAW)** that constrain instruction execution order.
 
-![image.png](pipeline/image%204.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%204.png)
 
 - dependency graph
 - **critical path is the longest path, assume every node take 1 cycle**
@@ -224,7 +224,7 @@ example: which pair of uOPs can execute in reverse order?
 - **physical registers:**
     - A register in the CPU that stores instruction results, including uncommitted ones.
 
-![image.png](pipeline/image%205.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%205.png)
 
 1. r9 is renamed to pr19, read from the table, `di` is mapped to `pr16`. therefore:
 2. suppose we rename the output to `pr20`, so `r9` is update to `pr20`. look up latest di and r9 before this row from the table. `di` maps to `pr16`, and `r9` maps to `pr19` 
@@ -243,7 +243,7 @@ example: which pair of uOPs can execute in reverse order?
 
 - therefore, we simply the datagraph:
     
-![image.png](pipeline/image%206.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%206.png)
     
 - now it length of critical path = 4, CPI = 4/6, ILP = 6/4
 
@@ -251,7 +251,7 @@ example: which pair of uOPs can execute in reverse order?
 
 example: 
 
-![image.png](pipeline/image%207.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%207.png)
 
 | code | inputs | output | rename input | rename output | %r0 | %r1 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -283,7 +283,7 @@ example:
         - **Broadcasted** by an ALU (arthematic logic unit) after a previous instruction completes.
 - **Execution Readiness:** The table lists reservation stations and shows whether each instruction is ready to issue.
 
-![image.png](pipeline/image%208.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%208.png)
 
 - **Reservation Station #0 (add)** is **ready to issue** because:
     - **All input operands (pr10 and pr11) are available**.
@@ -300,7 +300,7 @@ execution:
 
 ### modern IEMs
 
-![image.png](pipeline/image%209.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%209.png)
 
 ### Effective instruction Latency
 
@@ -311,7 +311,7 @@ execution:
 
 example:
 
-![image.png](pipeline/image%2010.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2010.png)
 
 - 1 cycle
 - if it is not in the critical path, then the effective latency is 0
@@ -319,7 +319,7 @@ example:
 
 ---
 
-![image.png](pipeline/image%2011.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2011.png)
 
 - the CP is mul → add r3 → add r4 → div → add r7
     - x is not in the critical path, therefore mem latency is 0
@@ -346,7 +346,7 @@ example:
 >     
 - when there are 2 memory loads, one of them is hided from the CP
 
-![image.png](pipeline/image%2012.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2012.png)
 
 - 2. the number of cycles is 4 * 5 = 20, the number of instructions is 10, therefore, average memroy latency is 20 / 10 = 2
 - what happen if the right all cache misses (`movq (%rsi), %rsi`) and take 12 cycles per load?
@@ -354,7 +354,7 @@ example:
 
 ---
 
-![image.png](pipeline/image%2013.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2013.png)
 
 - C, the CP is 4 cycles, it hides the path
 
@@ -362,7 +362,7 @@ example:
 
 example: find the max speedup
 
-![image.png](pipeline/image%2014.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2014.png)
 
 - we can speed up memory CPI to 1 cycle at max, so
     - improved memory time: 5 / 2.1 = 2.38
@@ -373,7 +373,7 @@ example: find the max speedup
 
 ---
 
-![image.png](pipeline/image%2015.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2015.png)
 
 ### 
 

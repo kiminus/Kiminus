@@ -31,7 +31,7 @@ Tags: Computer Hardware
 
 example: find the MPI in the section for each loop, suppose cache line size is 32 bytes 
 
-![image.png](cache_aware_p/image.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image.png)
 
 left: 
 
@@ -100,7 +100,7 @@ struct my_struct {
 
 example: order matters
 
-![image.png](cache_aware_p/image%201.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%201.png)
 
 - 64 byte cache line can store 64 / 4 = 16 ints,
 - for version A
@@ -167,7 +167,7 @@ struct struct_8 {
 - in following case, suppose `z=1, b=1`, so it is 2D array
 - therefore, index of every element is $index = y*(size.x)+ x$
 
-![image.png](cache_aware_p/image%202.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%202.png)
 
 - therefore, all the adjancent x elements are consecutive within a y
 - **mostly in row-major**
@@ -226,13 +226,13 @@ trade offs:
 
 example: 
 
-![image.png](cache_aware_p/image%203.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%203.png)
 
 - each element would take 4 bytes, and therefore each cache line will store 64/4 = 16 elements.
 - therefore, we will have 1 miss for each 16 memory access, those miss are compulsory
 - if we translate each loop, there should be 5 instructions per loop block.
 
-![image.png](cache_aware_p/image%204.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%204.png)
 
 - we only access memory once per 5 instructions, and only 1 out of 16 memory access cache miss
 - therefore, the result MPI is
@@ -242,7 +242,7 @@ example:
         - result MPI is 1/10 * 1/16, all cache miss are compulsory
 - if we use loop fusion, we have
 
-![image.png](cache_aware_p/image%205.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%205.png)
 
 - we will reduce the MPI after fuse the loop, MPI of unfused / MPI of fused > 1.xxxx ~ 2
     - note: we dont need to increment 2 `i` only 1 `i`
@@ -267,7 +267,7 @@ example:
 
 example:
 
-![image.png](cache_aware_p/image%206.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%206.png)
 
 - NOTE: since sensor is directly mapped from b→z→y→x, but here, each iteration, we try to get `a.get(i,j)`, and `a.get(i, j+1)`, which is `x = i, y = j -> j+1`, therefore, the distance between each element access is entire size of x, or 1024 ints
 
@@ -280,14 +280,14 @@ $$
     - therefore, hit rate is 0%
 - if we invert the loop:
 
-![image.png](cache_aware_p/image%207.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%207.png)
 
 - stride distance is 4 bytes
 - miss rate is 1/16
 
 ---
 
-![image.png](cache_aware_p/image%208.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%208.png)
 
 - the stride distance increase MPI when distance < cache line size, since less memory will be cached when stride distance increases
     - MPI increase rapidly at first. suppose cache line is 32 bytes and stride distance is 0 bytes, each element is an int 4 bytes, therefore, a cache line would store 32 / 4 = 8 ints at first, MPI = 1/8
@@ -339,7 +339,7 @@ If we iterate by increasing index **j**, what is the stride (in bytes) of memor
 - Reduces **cache pressure** but may increase instruction overhead.
 - does not help performance
 
-![image.png](cache_aware_p/image%209.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%209.png)
 
 ---
 
@@ -403,7 +403,7 @@ for (int ii = 0; ii < N; ii += T)
 
 example:
 
-![image.png](cache_aware_p/image%2010.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%2010.png)
 
 - what happen to the number of cache misses?
     - cache misses remain constant
@@ -526,6 +526,6 @@ Checkbox options[ ]
 
 ---
 
-![image.png](cache_aware_p/image%2011.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%2011.png)
 
-![image.png](cache_aware_p/image%2012.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache_aware_p/image%2012.png)

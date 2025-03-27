@@ -39,7 +39,7 @@ index of array is essentially offset of memory location, so they start with 0
 
 ## classic von neuman computer
 
-![image.png](cache/image.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image.png)
 
 ### memory wall
 
@@ -63,7 +63,7 @@ index of array is essentially offset of memory location, so they start with 0
 
 ### calculate for CPI:
 
-![image.png](cache/image%201.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%201.png)
 
 for 100000 k iterations, there are:
 
@@ -75,7 +75,7 @@ there are 100000 * 503 = 50300000 CPI  in total, and there are 3 + 3 + 2 + 4*100
 
 - we can only optimize the part x where it is parallezable. in this case,
 
-![image.png](cache/image%202.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%202.png)
 
 - since k is large, we can assume iterations takes the entire execution time
 - inside each iteration, `addl (%rax) %edx` is a memory access operation and its result edx is not used for later calculations, therefore it can be paralleized
@@ -109,7 +109,7 @@ a hash map cache table stores the value in a virtual memory location
 
 </aside>
 
-![image.png](cache/image%203.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%203.png)
 
 **3 layers of cache in modern computer** 
 
@@ -172,7 +172,7 @@ $$
 
 - where 2^k is the cache line size
 
-![image.png](cache/image%204.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%204.png)
 
 **unified cache** : A cache that holds both instructions and data.
 
@@ -188,7 +188,7 @@ each cache line starts with address 0x…0, eg: 0x1000, 0x1020.
 
 example: 
 
-![image.png](cache/image%205.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%205.png)
 
 - each element in the students array is unsigned int of 32 bits, or 4 bytes.
 - therefore, $addr(student[i]) = 0x1004 + 4i$
@@ -208,7 +208,7 @@ $$
 - to ensure O(1) access and store time
 - use tags to acces the cache line, and then use index bits to access a specific location.
 
-![image.png](cache/image%206.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%206.png)
 
 <aside>
 💡
@@ -321,9 +321,9 @@ fully-associative cac**he the same number and size of cache lines
 
 example
 
-![image.png](cache/image%207.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%207.png)
 
-![image.png](cache/image%208.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%208.png)
 
 - 0 : store. so we have index: 1, tag = 001,  compulsory miss
 - 1: load, so store cache line index = 0, tag = 000, compulsory miss
@@ -370,20 +370,20 @@ example
 
 example: (suppose only temporal cache)
 
-![image.png](cache/image%209.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%209.png)
 
 suppose the cache has 4 cache lines, 4 bytes per line, 32 bits addresss and 28 tag bits with 2 bit index and 2 bit offset
 
 so this will perform: 
 
-![image.png](cache/image%2010.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2010.png)
 
 1. first try to load A[0] with tag (the higher address bits > 4, in this case, 0-3 bits). so tag = 0001, then store the index bits (4 elements per cache line), so store 00 as 0. 
 2. then cache miss B[0] with tag = 0011 and index bits = 00
 3. similarly, store A[1], B[1]. **those are compulstory cache misses**
 4. and second run all hits cache, therefore, hit rate is 50%
 
-![image.png](cache/image%2011.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2011.png)
 
 ---
 
@@ -435,7 +435,7 @@ therefore, the hit rate is 50%
 
 suppose 2 cache lines, 1 index bit, which of following has higher cache hit rate?
 
-![image.png](cache/image%2012.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2012.png)
 
 original: 50%
 
@@ -457,7 +457,7 @@ the working set size: 16 bytes = 4 ints * 4 bytes per int +  4 ints * 4 bytes pe
 
 loop renesting + loop spliitng:
 
-![image.png](cache/image%2013.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2013.png)
 
 we only need 1 cache line with 1 content (one content in a cache line)
 
@@ -470,7 +470,7 @@ so 50%hit rate
 
 - there is room for cache, but indexing is too restrictive, causing coliision in hash table
 
-![image.png](cache/image%2014.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2014.png)
 
 - in this case, since index biits is 1,  we only take the 4th bit for indexing. however, look at each case:
     - 16 = `0001 0000` 4th bit is 0
@@ -493,7 +493,7 @@ the fully associative cache does not use **index,** cache line can live anywhere
 
 ### cache with associativity
 
-![image.png](cache/image%2015.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2015.png)
 
 - suppose associativity  = 2, which means 2 of the cache lines do not use index but search all associated cache lines when tag is inquered
 - therefore, first cacheline would store A[0], A[1], second would store B[0], B[1]. the first A[0], B[0] are compulsive misses, others are all cache hits
@@ -503,17 +503,17 @@ the fully associative cache does not use **index,** cache line can live anywhere
 - the index becomes the index of an associative set. an associated set have N cachelines, and they are associated.
 - and  we can implement LRU evication within a set
 
-![image.png](cache/image%2016.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2016.png)
 
 ---
 
-![image.png](cache/image%2017.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2017.png)
 
 - although index bit are all 0. all elements are cache in the first associative set.
 
 ---
 
-![image.png](cache/image%2018.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2018.png)
 
 ### prefetching
 
@@ -522,11 +522,10 @@ the fully associative cache does not use **index,** cache line can live anywhere
 
 # Cache access behavior plot
 
-![In this program we linearly access an array of memory of size 2^N bytes (2^(N-2) integers). We count the total time.](image%2019.png)
-
+![In this program we linearly access an array of memory of size 2^N bytes (2^(N-2) integers). We count the total time.](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2019.png)
 In this program we linearly access an array of memory of size 2^N bytes (2^(N-2) integers). We count the total time.
 
-![image.png](cache/image%2020.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2020.png)
 
 # virtual memory
 
@@ -582,7 +581,7 @@ typically, L1 cache has 100 entries of TLB, L2 has 1000 entries
 
 </aside>
 
-![image.png](cache/image%2021.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2021.png)
 
 - TLB usually have high hits, .
     - hits are fast
@@ -641,7 +640,7 @@ $$
 
 ---
 
-![image.png](cache/image%2022.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2022.png)
 the page offset bits = log_2 (4*1024) = 12, therefore, the lower 3 hex value is ignored (because page offset is ignored). then, since the remaiing `ce66e` ≠ `ce66f` , they belong to different page 
 
 ---
@@ -661,7 +660,7 @@ A, because cache miss has higher miss rate?
 
 example: 
 
-![image.png](cache/image%2023.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/cache/image%2023.png)
 - since the array start address is 4kb-aligned. therefore, address intervals are: `0-4kb`, `4kb-8kb`
 - each element is 8 bytes, in a single page of `4kb`, therfore, there are 4096 / 8 = 512 elements.
 - therfore, element 1 is in second page, while element 2 is in first page, not in the same page

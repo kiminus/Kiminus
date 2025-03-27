@@ -65,7 +65,7 @@ $$
 - L3 cache is shared among CPUs
 - comm latency is not uniform, varies based on the distance to other CPUs or memory banks
 
-![image.png](parallelism/image.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image.png)
 
 ### Cache line invalidation
 
@@ -91,7 +91,7 @@ $$
 
 example: 
 
-![image.png](parallelism/image%201.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%201.png)
 
 - here is what gonna happen, in one random run:
 
@@ -112,7 +112,7 @@ example:
 > 
 - we can define lock: `std:mutex lock`
 
-![image.png](parallelism/image%202.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%202.png)
 
 - is the program deterministc?
     - NO, if B executes before A, result is different
@@ -130,7 +130,7 @@ example:
 
 example:
 
-![image.png](parallelism/image%203.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%203.png)
 
 - there will be compulsory misses, 1 per cache line get
 - there will be a lot coherence misses, since lock is also shared across processors.
@@ -147,7 +147,7 @@ example:
 
 example:
 
-![image.png](parallelism/image%204.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%204.png)
 
 - the program is determinstic
 - although there is no sharing between the threads, there are still coherence misses, because we shared the cache lines but not the data
@@ -172,7 +172,7 @@ volatile int non_shared_b
 
 example:
 
-![image.png](parallelism/image%205.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%205.png)
 
 - there is only 1 compulsory misses when each processor loads, therefore we can ignore it
 - since bar fields are cached on the same cache line, a lot of coherence miss will occur
@@ -201,7 +201,7 @@ example:
 
 example:
 
-![image.png](parallelism/image%206.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%206.png)
 
 - the working set size is 256 *8 = 2kb, this is a relatively small working set and can be cached without capacity miss on modern design. therefore, tilling does not help much
 - function inlining does not help because `__attribute__((noinline))` is defined, which explicitly tell the complier not to inlineing the function
@@ -212,7 +212,7 @@ example:
 - now, suppose we have N threads, and each process 1/N of data
     - suppose we use lock to protect increment of histogram[b]
         
-        ![image.png](parallelism/image%207.png)
+        ![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%207.png)
         
     - what is speed up of 6 threads
         
@@ -226,27 +226,27 @@ example:
                 - it has a good speedup, but the coherence miss still present.
                 - since the buckets are created like following continous pattern, and each bucket is an int, multiple buckets would be on the same cacheline, and when one of them gets updated, a **false sharing**  would still occur to invalidate all other buckets in the same cache, even they are unrelated. this still cause coherence misses
                     
-                    ![image.png](parallelism/image%208.png)
+                    ![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%208.png)
                     
             - to fix it, we **can use thread-private buckets and let each bucket occupy entire cache line.** in this case, define buckets as `buckets[thread_id * 256 + bucket_number ] = val` for each loop. therefore, **instead of same bucket number from different threads are adjacent to each other, we make same threads buckets adjacent to each other.** therefore, we avoid most coherence misses, there are still some coherence misses possible in the cache line that contains buckets from differnt threads.
                 - and we also eliminated all locks!
                     
-                    ![image.png](parallelism/image%209.png)
+                    ![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%209.png)
                     
 
-![original](parallelism/image%2010.png)
+![original](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%2010.png)
 
 original
 
-![private lock for each shared bucket ](parallelism/image%2011.png)
+![private lock for each shared bucket ](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%2011.png)
 
 private lock for each shared bucket 
 
-![private bucket for each thread, grouped by bucket numbers](parallelism/image%2012.png)
+![private bucket for each thread, grouped by bucket numbers](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%2012.png)
 
 private bucket for each thread, grouped by bucket numbers
 
-![private buckets for each thread,  grouped by threads](parallelism/image%2013.png)
+![private buckets for each thread,  grouped by threads](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%2013.png)
 
 private buckets for each thread,  grouped by threads
 
@@ -288,7 +288,7 @@ SMT - simultaneous multithreading
 - where a single isntruction operates on multiple data values of same type
 - for example, adding 2 vector element wise
 
-![image.png](parallelism/image%2014.png)
+![image.png](https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%2014.png)
 
 - CPI = 1, cycles/addition = 0,25
     - floating point, huge arrays

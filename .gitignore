@@ -5,3 +5,5 @@ docs/docs/documents/portfolio.pptx
 venv
 .idea
 logs
+secrets
+remote
