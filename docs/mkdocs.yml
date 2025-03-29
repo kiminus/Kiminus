@@ -1,109 +1,118 @@
 site_name: Docs
 theme:
-  name: material
-  font:
-    text: Roboto
-    code: Fira Code
-  logo: assets/icon.png
-  favicon: assets/favicon.ico
-  icon:
-    annotation: material/plus-circle
-  palette:
-    # Dark mode
-    - scheme: slate
-      toggle:
-        icon: material/weather-sunny
-        name: Dark mode
-      primary: blue
-      accent: teal
+    name: material
+    font:
+        text: Roboto
+        code: Fira Code
+    logo: assets/icon.png
+    favicon: assets/favicon.ico
+    icon:
+        annotation: material/plus-circle
+    palette:
+        # Dark mode
+        - scheme: slate
+          toggle:
+              icon: material/weather-sunny
+              name: Dark mode
+          primary: blue
+          accent: teal
 
-    # Light mode
-    - scheme: default
-      toggle:
-        icon: material/weather-night
-        name: Light mode
-      primary: green
-      accent: amber
-  features:
-    - content.code.copy
-    - content.code.select
-    - content.code.annotate
-    - content.footnote.tooltips
-    - navigation.footer
+        # Light mode
+        - scheme: default
+          toggle:
+              icon: material/weather-night
+              name: Light mode
+          primary: green
+          accent: amber
+    features:
+        - content.code.copy
+        - content.code.select
+        - content.code.annotate
+        - content.footnote.tooltips
+        - navigation.footer
 
 markdown_extensions:
-  - attr_list
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.superfences:
-      custom_fences:
-          - name: mermaid
-            class: mermaid
-            format: !!python/name:pymdownx.superfences.fence_code_format
-  - pymdownx.tabbed:
-      alternate_style: true
-  - admonition
-  - pymdownx.details
-  - footnotes
-  - def_list
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - md_in_html
-  - pymdownx.arithmatex:
-      generic: true
+    - attr_list
+    - pymdownx.emoji:
+          emoji_index: !!python/name:material.extensions.emoji.twemoji
+          emoji_generator: !!python/name:material.extensions.emoji.to_svg
+    - pymdownx.highlight:
+          anchor_linenums: true
+          line_spans: __span
+          pygments_lang_class: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences:
+          custom_fences:
+              - name: mermaid
+                class: mermaid
+                format: !!python/name:pymdownx.superfences.fence_code_format
+    - pymdownx.tabbed:
+          alternate_style: true
+    - admonition
+    - pymdownx.details
+    - footnotes
+    - def_list
+    - pymdownx.tasklist:
+          custom_checkbox: true
+    - md_in_html
+    - pymdownx.arithmatex:
+          generic: true
 
 extra:
-  social:
-    - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/zilin-l-17b71022b/
-  meta:
-    - name: robots
-      content: "noindex, nofollow"
-  generator: false
+    social:
+        - icon: fontawesome/brands/linkedin
+          link: https://www.linkedin.com/in/zilin-l-17b71022b/
+    meta:
+        - name: robots
+          content: "noindex, nofollow"
+    generator: false
 
 extra_javascript:
-  - js/katex.js
-  - https://unpkg.com/katex@0/dist/katex.min.js
-  - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+    - js/katex.js
+    - https://unpkg.com/katex@0/dist/katex.min.js
+    - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
 
 extra_css:
-  - https://unpkg.com/katex@0/dist/katex.min.css
-
+    - https://unpkg.com/katex@0/dist/katex.min.css
 
 copyright: "© 2021 Zilin Liu"
 
 nav:
-  - Index: index.html
-  - Home: home.md
-  - LeetCode:
-    - Overview: leetcode/index.md
-    - Sorting:
-      - sort linked list: leetcode/sorting/sort_list.md
-  - Notes:
-    - Overview: notes/index.md
-    - Angular:
-      - Overview: notes/angular/index.md
-      - Platform:
-          - CLI: notes/angular/cli.md
-      - Material Components: notes/angular/material_component.md
-    - Typescript:
-      - Overview: notes/typescript/index.md
-      - Decorator: notes/typescript/decorator.md
-    - MKDocs:
-      - Overview: notes/mkdocs/index.md
-      - Common Errors: notes/mkdocs/common_errors.md
-  - Class Notes:
-    - Overview: class_notes/index.md
-    - CSE 142:
-      - Overview: class_notes/CSE142/index.md
-      - Cache: class_notes/CSE142/cache.md
-      - Cache Aware Programming: class_notes/CSE142/cache_aware_programming.md
-      - pipelining: class_notes/CSE142/pipeline.md
-      - Parallelism: class_notes/CSE142/parallelism.md
+    - Index: index.html
+    - Home: home.md
+    - LeetCode:
+          - Overview: leetcode/index.md
+          - Sorting:
+                - sort linked list: leetcode/sorting/sort_list.md
+    - Notes:
+          - Overview: notes/index.md
+          - Angular:
+                - Overview: notes/angular/index.md
+                - Platform:
+                      - CLI: notes/angular/cli.md
+                - Components:
+                      - Components: notes/angular/component.md
+                      - Material Components: notes/angular/material_component.md
+                - Signals: notes/angular/signal.md
+          - Typescript:
+                - Overview: notes/typescript/index.md
+                - Decorator: notes/typescript/decorator.md
+          - Javascript:
+                - Overview: notes/javascript/index.md
+                - Async/Await: notes/javascript/async_await.md
+                - Closures: notes/javascript/closures.md
+                - Prototypes: notes/javascript/prototypes.md
+                - Data Structures:
+                      - Arrays: notes/javascript/ds/arrays.md
+          - MKDocs:
+                - Overview: notes/mkdocs/index.md
+                - Common Errors: notes/mkdocs/common_errors.md
+    - Class Notes:
+          - Overview: class_notes/index.md
+          - CSE 142:
+                - Overview: class_notes/CSE142/index.md
+                - Cache: class_notes/CSE142/cache.md
+                - Cache Aware Programming: class_notes/CSE142/cache_aware_programming.md
+                - pipelining: class_notes/CSE142/pipeline.md
+                - Parallelism: class_notes/CSE142/parallelism.md
