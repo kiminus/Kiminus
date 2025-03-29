@@ -1,0 +1,12 @@
+site_name: Docs
+theme: material  # You can use 'readthedocs', 'mkdocs', or 'material'
+nav:
+  - Home: index.md
+  - About: about.md
+
+extra_css:
+  - styles/fallback.css
+
+plugins:
+  - search
+  - include-markdown
