@@ -30,6 +30,8 @@ theme:
         - content.code.annotate
         - content.footnote.tooltips
         - navigation.footer
+        - navigation.top
+        - toc.integrate
 
 markdown_extensions:
     - attr_list
@@ -94,6 +96,7 @@ nav:
                 - Components:
                       - Components: notes/angular/component.md
                       - Material Components: notes/angular/material_component.md
+                - HTTP Client: notes/angular/httpClient.md
                 - Signals: notes/angular/signal.md
           - Typescript:
                 - Overview: notes/typescript/index.md
@@ -116,3 +119,5 @@ nav:
                 - Cache Aware Programming: class_notes/CSE142/cache_aware_programming.md
                 - pipelining: class_notes/CSE142/pipeline.md
                 - Parallelism: class_notes/CSE142/parallelism.md
+    - Temp:
+          - ADR: jobs/ADRs/NHCS-622.md
