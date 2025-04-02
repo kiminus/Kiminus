@@ -144,7 +144,7 @@ console.log(nameCap()); //ZA
     }
     ```
 
-    1. [Array.reduce()](/notes/javascript/ds/arrays)
+    1. [Array.reduce()](../javascript/ds/arrays.md)
 
 === "Output"
 

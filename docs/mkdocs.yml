@@ -77,6 +77,7 @@ extra_javascript:
 
 extra_css:
     - https://unpkg.com/katex@0/dist/katex.min.css
+    - styles/fallback.css
 
 copyright: "© 2021 Zilin Liu"
 
@@ -95,7 +96,9 @@ nav:
                       - CLI: notes/angular/cli.md
                 - Components:
                       - Components: notes/angular/component.md
-                      - Material Components: notes/angular/material_component.md
+                      - Material Components:
+                            - Overview: notes/angular/angular_material/material_component.md
+                            - Form Control: notes/angular/angular_material/form_control.md
                 - HTTP Client: notes/angular/httpClient.md
                 - Signals: notes/angular/signal.md
           - Typescript:
