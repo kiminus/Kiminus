@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+    <script src="https://kit.fontawesome.com/247da32b68.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="styles/index.css">
+
+    <title>Portfolio</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-title h2-font animate-hover-enlarge text-center col-lg-2 col-md-3" href="#">Zilin Liu</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:#fff; font-size:28px;"></i></span>
+            </button>
+            <div class="collapse navbar-collapse col-lg-10 col-md-9" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 col-lg-9 text-center">
+                    <li class="nav-item animate-hover-enlarge col-lg-3">
+                        <a class="nav-link active" aria-current="page" href="http://kiminus.com:3000">Projects <i
+                                class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </li>
+                    <li class="nav-item dropdown animate-hover-enlarge col-lg-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">Resume(s)
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item"
+                                    href="documents/Resume-Software%20development-real.pdf">Software/Web
+                                    Developer</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown animate-hover-enlarge col-lg-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Resource
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="./notes">Notes</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="https://www.google.com">Collection of useful sites</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item col-lg-3 animate-hover-enlarge">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Downloads
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item"
+                                    href="documents/academichistoryreviewpdf%20(11).pdf">transcript</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex col-lg-3" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <div>
+        <div class="row" id="intro-container">
+            <div class="col-lg-6">
+                <h1 class="animate__animated animate__fadeInDown">Hi, There</h1>
+                <p class="animate__animated animate__fadeInUp" id="self-intro">
+                    I am zilin liu, a Junior undergraduate Computer Engineering student in UCSD. I am interested in Game
+                    and software development. My project focus on the user interaction with the project content.
+                </p>
+                <!-- create a button that links to kiminus.com:3000 -->
+                <a href="http://kiminus.com:3000"
+                   class="btn btn-primary animate__animated animate__fadeInUp btn-links">My Projects<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <a href="./home"
+                   class="btn btn-primary animate__animated animate__fadeInUp btn-links">Notes & others <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+            <div class="col-lg-6 animate__animated animate__fadeInLeft">
+                <img id="title-image" src="assets/image/sample_portrait.jpg" alt="sample portrait">
+            </div>
+        </div>
+
+        <div id="skills-container" class="row">
+            <div class="card col-lg-8" id="skill-box">
+                <div class="card-header">
+                    <div class="pull-left">
+                        <h4 class="mt-2">Skills</h4>
+                        <span class="line"></span>
+                    </div>
+                </div>
+                <div class="card-body p-3 row">
+                    <div class="skill-col col-lg-6">
+                        <h6>Java</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar" role="progressbar" style="width: 95%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>C#</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 90%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Javascript/Typescript</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="50"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Python</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar  " role="progressbar" style="width: 85%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>C++/C</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 50%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+
+                    </div>
+                    <div class="skill-col col-lg-6">
+                        <h6>React</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 80%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Angular</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 75%" aria-valuenow="75"
+                                 aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>MySQL</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar  " role="progressbar" style="width: 70%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>AWS</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar  " role="progressbar" style="width: 70%" aria-valuenow="75"
+                                 aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>SpringBoot</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 50%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Linux/Bash/Shell commands</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar " role="progressbar" style="width: 45%" aria-valuenow="75"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Express, Cypress, Vite ...</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar  " role="progressbar" style="width: 40%" aria-valuenow="50"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-lg-4" id="lang-box">
+                <div class="card-header">
+                    <div class="pull-left">
+                        <h4 class="mt-2">Languages</h4>
+                        <span class="line"></span>
+                    </div>
+                </div>
+                <div class="card-body pb-2">
+                    <h6>Chinese(Mandarin)</h6>
+                    <div class="progress mb-3">
+                        <div class="progress-bar  " role="progressbar" style="width: 100%" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h6>English</h6>
+                    <div class="progress mb-3">
+                        <div class="progress-bar  " role="progressbar" style="width: 96%" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h6>Spanish</h6>
+                    <div class="progress mb-3">
+                        <div class="progress-bar  " role="progressbar" style="width: 10%" aria-valuenow="50"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="roadmap-container">
+            <div class="col">
+                <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                    <div class="timeline-step">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
+                            title="">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">2022</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">undergraduate in UCSD</p>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
+                            title="">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">2022 fall</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">developed Talis Stand</p>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
+                            title="">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">2023</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">Game Jam</p>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
+                            title="">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">2023 Summer</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">Internship in DigitalOcean</p>
+                        </div>
+                    </div>
+                    <div class="timeline-step mb-0">
+                        <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top"
+                            title="" data-content="And here's some amazing content. It's very engaging. Right?"
+                            data-original-title="2020">
+                            <div class="inner-circle"></div>
+                            <p class="h6 mt-3 mb-1">2024</p>
+                            <p class="h6 text-muted mb-0 mb-lg-0">now</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="keypoints-list" class="row">
+        <div class='col-lg-3' id="ring">
+            <div id="ring-center-text">
+                About <br /> Me
+            </div>
+        </div>
+        <div class="list-group col-lg-9" id="keypoints-menu-list">
+            <a class="list-group-item  list-group-item-secondary animate-enlarge-shadow" aria-current="true"
+                id="creative-keypoint">
+                <p class="list-group-item-level-1 btn-content">Creative</p>
+            </a>
+            <a class="list-group-item  list-group-item-primary animate-enlarge-shadow" id="friendly-keypoint">
+                <p class="list-group-item-level-2 btn-content">Friendly</p>
+            </a>
+            <a class="list-group-item  list-group-item-primary animate-enlarge-shadow" id="fast-learner-keypoint">
+                <p class="list-group-item-level-3 btn-content">Fast learner</p>
+            </a>
+            <a class="list-group-item  list-group-item-primary list-group-item-level-2 animate-enlarge-shadow"
+                id="teamwork-keypoint">
+                <p class="list-group-item-level-2 btn-content">Teamwork</p>
+            </a><a class="list-group-item list-group-item-primary animate-enlarge-shadow" id="adaptability-keypoint">
+                <p class="list-group-item-level-1 btn-content">Adaptability</p>
+            </a>
+        </div>
+    </div>
+    <div id="projects-container">
+        <h2 id="project-container-title">Projects</h2>
+        <div class="row">
+            <a class="card col-lg-5 project-card" href="https://zu98jpdpxw.us-west-2.awsapprunner.com/">
+                <img src="assets/image/twitch.png" class="card-img" alt="game image">
+                <div class="card-body">
+                    <h2 class="card-title">Video Recommendation App</h2>
+                    <ul class="list-group list-group-flush card-body">
+                        <li class="list-group-item">Language used: Java, JavaScript</li>
+                        <li class="list-group-item">Framework used: React, SpringBoot, MySQL</li>
+                        <li class="list-group-item">Tools used: Postman, Docker</li>
+                        <li class="list-group-item">Deployment Platform: AWS</li>
+                        <li class="list-group-item">
+                            • Frontend: <br>
+                            &nbsp; &nbsp; &nbsp;o Developed a Twitch-like video browsing and recommendation platform
+                            using
+                            React with Ant Design for UI, adhering to REST API principles. <br>
+                            &nbsp; &nbsp; &nbsp;o Implemented features like user login/logout, video search,
+                            upvote/downvote, and
+                            personalized recommendations based on user preferences and video popularity.<br>
+                            &nbsp; &nbsp; &nbsp;o Implemented integration testing with Postman and used JavaFaker for
+                            data mocking<br>
+                            &nbsp; &nbsp; &nbsp;o Designed a thin client architecture to maximize accessibility and user
+                            satisfaction.<br>
+                            • Backend:<br>
+                            &nbsp; &nbsp; &nbsp;o Developed backend using Spring Boot and Gradle, using MySQL in a
+                            Docker container for data
+                            storage.<br>
+                            &nbsp; &nbsp; &nbsp;o Implemented a session-based authentication with Spring Security and
+                            user password encoding
+                            (bcrypt), along with caching via Spring Data Caching and Caffeine.<br>
+                            &nbsp; &nbsp; &nbsp;o Utilized JDBC in Spring Boot for data communication and repository
+                            management.<br>
+                            &nbsp; &nbsp; &nbsp;o Deployed the application on AWS (with App Runner)<br>
+
+                        </li>
+                    </ul>
+                </div>
+            </a>
+            <a class="card col-lg-5 project-card" href="https://kongcheng.itch.io/talis-stand">
+                <img src="assets/image/Talis_stand.png" class="card-img" alt="game image">
+                <div class="card-body">
+                    <h2 class="card-title">Talis Stand</h2>
+                    <ul class="list-group list-group-flush card-body">
+                        <li class="list-group-item">Platform: windows, macOS, Linux</li>
+                        <li class="list-group-item">Game engine: unity</li>
+                        <li class="list-group-item">Language used: C#, Java, web development</li>
+                        <li class="list-group-item">What I did: Build and develop the programming part of the game,
+                            collaborate with my friend to write the backstory of the
+                            game. Create the visual effects for the skills. Collaborate on the release and marking of
+                            the game on itch.io
+                        </li>
+                    </ul>
+                </div>
+            </a>
+            <a class="card col-lg-5 project-card" href="https://kiminus.github.io/ECE45_Synthesizer/">
+                <img src="assets/image/Synthesizer.png" class="card-img" alt="game image">
+                <div class="card-body">
+                    <h2 class="card-title">ECE45 Synthesizer (Course project)</h2>
+                    <ul class="list-group list-group-flush card-body">
+                        <li class="list-group-item">Platform: web</li>
+                        <li class="list-group-item">Framework/library: ant design/react</li>
+                        <li class="list-group-item">Language used: Javascript</li>
+                        <li class="list-group-item">Project Length: 1 week, solo</li>
+                        <li class="list-group-item">Accomplishments: earned full credit for completing most of the
+                            functionality required</li>
+                        <li class="list-group-item">What I did: design and developed the project, allow users to
+                            customize many aspects of the waveform, including the basic pitch, envelop, shape and
+                            harmony. Users can freely combined those elements to create the sound wave they want
+                        </li>
+                    </ul>
+                </div>
+            </a>
+            <a class="card col-lg-5 project-card" href="https://kiminus.github.io/Kiminus/">
+                <img src="assets/image/portfolio.png" class="card-img" alt="game image">
+                <div class="card-body">
+                    <h2 class="card-title">Portfolio (This)</h2>
+                    <ul class="list-group list-group-flush card-body">
+                        <li class="list-group-item">Platform: web</li>
+                        <li class="list-group-item">Framework: Bootstrap</li>
+                        <li class="list-group-item">Language used: Javascript</li>
+                        <li class="list-group-item">Project Length: 3 days, solo</li>
+                        <li class="list-group-item">Accomplishments: yet to find out</li>
+                        <li class="list-group-item">Keypoints: <br>
+                            &nbsp; responsive web design: accessiblity for mobile users <br>
+                            &nbsp; custom CSS properties: ensures DRY code <br>
+                            &nbsp; animations: improves user satisfactory <br>
+                            &nbsp; bootstrap design: ensures page responsiveness across devices<br>
+                        </li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+    </div>
+    <script rel="text/Javascript" src="js/index.js"></script>
+
+</body>
+<footer class="text-center">
+    <h6>Follow me at</h6>
+    <div class="social-media-icons">
+        <a class="animate-hover-flip-fill-icon col-md-3" href="https://github.com/kiminus"><i
+                class="fa-brands fa-github"></i></a>
+        <a class="animate-hover-flip-fill-icon col-md-3" id="instagram-media-icon"
+            href="https://www.instagram.com/kiminus123/"><i class="fa-brands fa-instagram"></i></a>
+    </div>
+</footer>
+
+</html>

@@ -1,0 +1,2467 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../cache_aware_programming/">
+      
+      
+        <link rel="next" href="../parallelism/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>pipelining - Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M17%2013h-4v4h-2v-4H7v-2h4V7h2v4h4m-5-9A10%2010%200%200%200%202%2012a10%2010%200%200%200%2010%2010%2010%2010%200%200%200%2010-10A10%2010%200%200%200%2012%202%22/%3E%3C/svg%3E');}</style>
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
+      <link rel="stylesheet" href="../../../styles/fallback.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pipeline" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Docs" class="md-header__button md-logo" aria-label="Docs" data-md-component="logo">
+      
+  <img src="../../../assets/icon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pipelining
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="teal"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Docs" class="md-nav__button md-logo" aria-label="Docs" data-md-component="logo">
+      
+  <img src="../../../assets/icon.png" alt="logo">
+
+    </a>
+    Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Index
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    LeetCode
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            LeetCode
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../leetcode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Sorting
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Sorting
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../leetcode/sorting/sort_list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    sort linked list
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Angular
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Angular
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Platform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Platform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Components
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Components
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/component/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Components
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_3_2" id="__nav_4_2_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Material Components
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Material Components
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/angular_material/material_component/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/angular_material/form_control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Form Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/httpClient/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTTP Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Signals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Typescript
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Typescript
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/typescript/decorator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Decorator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Javascript
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Javascript
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/javascript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/javascript/async_await.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Async/Await
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/javascript/closures.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Closures
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/javascript/prototypes.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prototypes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4_5" id="__nav_4_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Data Structures
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Data Structures
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/javascript/ds/arrays/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arrays
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    MKDocs
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            MKDocs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/mkdocs/common_errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Common Errors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Class Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Class Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CSE 142
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            CSE 142
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cache_aware_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cache Aware Programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    pipelining
+    
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parallelism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    ECE 140B
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            ECE 140B
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ECE140B/team_proposal.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Team Proposal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CSE 120
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            CSE 120
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CSE120/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CSE120/OS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Temp
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Temp
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../jobs/ADRs/NHCS-622.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ADR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="pipeline">Pipeline</h1>
+<p>Created: March 14, 2025 8:33 PM
+Tags: Computer Hardware</p>
+<h1 id="iem-instruction-execution-machine-02">IEM - instruction Execution Machine 0.2</h1>
+<blockquote>
+<p>each instruction goes 1 each stage per cycle,
+</p>
+<p>each stage take 1 clock cycle, so single instruction executes 6 cycles
+</p>
+<p>only 1 instruction is executing at any time
+</p>
+</blockquote>
+<aside>
+💡
+
+recall: IC - set up programming, CPI - this design: 6/good design = 1, CT - large in this design
+
+</aside>
+
+<hr />
+<p>example: what is CPI in this design:</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image.png" /></p>
+<ul>
+<li>the CPI is 6, the cycles: fetch → decode → RF read → execution/memory → RF write → update PC</li>
+</ul>
+<h3 id="pipeline-cpu">pipeline CPU</h3>
+<ul>
+<li>the CPU pipeline alllows each cycle to handle different instruction in order, so concurrently we can execute 6 instruction in order, just like assembly line</li>
+<li>however, it is NOT impacting performance,<ul>
+<li><strong>pipelined CPI: 1 (from 0.2 reduce from 6)</strong></li>
+<li>cycles to execute a single instruction remains roughly constant</li>
+<li>required:<ul>
+<li>CPU initiate new instruction each cycle</li>
+<li>CPU completes an instruction in each cycle</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<aside>
+💡
+
+If the prediction was incorrect, the processor squashes instructions on the mispredicted path.
+
+</aside>
+
+<h3 id="hazards">hazards</h3>
+<ul>
+<li>when processor dont have something needs to process instruction</li>
+<li>
+<p><strong>control hazards:</strong> fetch stage does not know which instruction to fetch</p>
+<blockquote>
+<p>A hazard that occurs when the pipeline needs to determine the correct instruction to fetch after a branch, or ran into <strong>pipeline stall (bubble)</strong>
+</p>
+</blockquote>
+<p><strong>pipeline stall</strong>: A temporary delay in the pipeline execution flow (e.g., due to control hazards), where no new instructions are issued in some cycles</p>
+<ul>
+<li>possible causes:<ul>
+<li>ran into a loop</li>
+<li>if statement checks for unlikely error conditions</li>
+<li>unconditional branches</li>
+</ul>
+</li>
+<li>solution: <strong>speculative execution,</strong><ul>
+<li>processor guess (speculate) which branch will go</li>
+<li>no more hazards</li>
+<li>how to guess?<ul>
+<li>guess backward branch? (since loop goes backwards)</li>
+<li>cached prediction<ul>
+<li>
+<p>create a map with key = 00,01,10,10, value is boolean (default false)</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>was_last_branch_taken</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>true</td>
+</tr>
+<tr>
+<td>01</td>
+<td>false</td>
+</tr>
+<tr>
+<td>- suppose at branch predictor, we want to predict if program will go to<code>addr</code></td>
+<td></td>
+</tr>
+<tr>
+<td>- take the first 2 bits of <code>addr</code>, and look up at the table. if <code>was_last_branch_taken == true</code> , predict to goto that branch</td>
+<td></td>
+</tr>
+<tr>
+<td>- on UPDATE PC stage, get the prediction result and update the table</td>
+<td></td>
+</tr>
+<tr>
+<td>- how to rollback if guess is wrong</td>
+<td></td>
+</tr>
+<tr>
+<td>- processor <strong>squashes it</strong> when branch resolves</td>
+<td></td>
+</tr>
+<tr>
+<td>- discard/rollback/suppress register/memory updates</td>
+<td></td>
+</tr>
+<tr>
+<td>- called <strong>flushing the pipeline</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>- CPU flushes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="iem-06">IEM 0.6</h3>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%201.png" /></p>
+<ul>
+<li>a branch detector is used to make predictions based on prior branch outcomes<ul>
+<li>fetch: predecode and predict next PC</li>
+<li>update PC: detect mispredictions</li>
+</ul>
+</li>
+<li>Update PC stage must correct if wrong, misprediciton recovery</li>
+<li>
+<p><strong>modern predictors:</strong></p>
+<ul>
+<li>use bigger table</li>
+<li>dont change prediction after one misinterpretation</li>
+<li>account for history of branch behavior, and global pattern of branch behavior…</li>
+</ul>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%202.png" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>data hazards:</strong> execution stage does not have operand it requires</p>
+<blockquote>
+<p>A situation where an instruction depends on the result of a previous instruction that has not yet completed.</p>
+<ul>
+<li>for example, if we have the following instruction:</li>
+</ul>
+</blockquote>
+<div class="language-text highlight"><pre><span></span><code>```c
+addl %esi, %edi //fetch @ 1, write to register file @ 5
+addl %edx, %edi //fetch @ 2, needs to read from RF @ 4, but its not available
+```
+</code></pre></div>
+</li>
+</ul>
+<h3 id="iem-08">IEM - 0.8</h3>
+<ul>
+<li>x86 pipelines DONT actually execute x86 instructions, they translate x86 instruction set into micro-ops or uOps (IEM-0.8)<ul>
+<li>CPI = 1, CT = low, supports x86</li>
+<li>uOps are simple,<ul>
+<li>small number of arithematic ops</li>
+<li>0 or 1 mem access</li>
+<li>0-2 reads, 0-1 write</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="iem-10">IEM 1.0</h3>
+<ul>
+<li>CPI &lt; 1 means more than 1 instruction finishes executing per cycle<ul>
+<li>execute instructions ASAP using instruction level paralleism</li>
+<li>processor utilize ILP using out of order execution (OOO)</li>
+</ul>
+</li>
+<li>OOO solve several problems at once<ul>
+<li>reduce CPI</li>
+<li>handles data depencies, long-latency instructions</li>
+</ul>
+</li>
+<li>OOO concepts<ul>
+<li>register dependencies</li>
+<li>register renaming</li>
+<li>OOO issue</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>example: which pair of uOPs can execute in reverse order?</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%203.png" /></p>
+<ul>
+<li>E</li>
+</ul>
+<h3 id="data-dependencies">data dependencies</h3>
+<ul>
+<li>
+<p>it constrain the order of instruction</p>
+<ul>
+<li>read-after-write (RAW)<ul>
+<li>True dependency</li>
+<li>we want processor only constrained by True dependency (RAW)</li>
+</ul>
+</li>
+<li>
+<p>write-after-write (WAW)</p>
+<ul>
+<li>False dependecy</li>
+<li>when both instruction write to the same register</li>
+</ul>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">mov</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">edx</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">mov</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">edx</span>
+</span></code></pre></div>
+<ul>
+<li>we can make them write to different register, so we can perform OOO</li>
+</ul>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">mov</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">ecx</span><span class="w"> </span><span class="c1">//order swiched</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">mov</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">edx</span><span class="w"> </span><span class="c1">//final value in edx is same</span>
+</span></code></pre></div>
+</li>
+<li>
+<p>write-after-read (WAR)</p>
+<ul>
+<li>false dependency</li>
+</ul>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">mov</span><span class="w"> </span><span class="o">%</span><span class="n">edx</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">eax</span><span class="w"> </span><span class="c1">//read</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">mov</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">edx</span><span class="w"> </span><span class="c1">//write</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">add</span><span class="w"> </span><span class="o">%</span><span class="n">eax</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">eax</span><span class="w"> </span>
+</span></code></pre></div>
+<ul>
+<li>similalry, we can write to different registers to perform OOO</li>
+</ul>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">mov</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">ecx</span><span class="w"> </span><span class="c1">//after order switch</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">mov</span><span class="w"> </span><span class="o">%</span><span class="n">edx</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">eax</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">add</span><span class="w"> </span><span class="o">%</span><span class="n">eax</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">eax</span><span class="w"> </span><span class="c1">//final value in eax is same</span>
+</span></code></pre></div>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="dependencies-and-dataflow-graphs">dependencies and dataflow graphs</h3>
+<ol>
+<li><strong>(a) They do not include branches.</strong> ❌<ul>
+<li><strong>False.</strong> Dependence graphs <strong>can include branches</strong> since branches affect control dependencies.</li>
+</ul>
+</li>
+<li><strong>(b) Nodes represent instructions.</strong> ✅<ul>
+<li><strong>True.</strong> In a dependence graph, <strong>each node corresponds to an instruction</strong> in the program.</li>
+</ul>
+</li>
+<li><strong>(c) Fewer edges in the graph generally means more ILP.</strong> ✅<ul>
+<li><strong>True.</strong> <strong>Fewer dependencies</strong> allow more instructions to execute in parallel, increasing <strong>Instruction-Level Parallelism (ILP)</strong>.</li>
+</ul>
+</li>
+<li><strong>(d) The edges include memory and register values.</strong> <strong>.</strong> ❌<ul>
+<li><strong>False.</strong> <strong>Edges represent dependencies,</strong> including both <strong>register and memory dependencies</strong> (RAW, WAR, WAW), but not values</li>
+</ul>
+</li>
+<li><strong>(e) Only the compiler can construct a dependence graph.</strong> ❌<ul>
+<li><strong>False.</strong> The <strong>hardware (e.g., Tomasulo’s algorithm, dynamic schedulers)</strong> and <strong>compilers</strong> can both construct and use dependence graphs.</li>
+</ul>
+</li>
+<li><strong>(f) The critical path through the graph sets the minimum number of cycles it takes to execute the instructions.</strong> ✅<ul>
+<li><strong>True.</strong> The <strong>longest dependency chain (critical path)</strong> determines the <strong>minimum execution time</strong> in cycles.</li>
+</ul>
+</li>
+<li><strong>(g) Edges represent a requirement that one instruction execute before another.</strong> ✅<ul>
+<li><strong>True.</strong> Edges denote <strong>data dependencies (RAW), anti-dependencies (WAR), and output dependencies (WAW)</strong> that constrain instruction execution order.</li>
+</ul>
+</li>
+</ol>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%204.png" /></p>
+<ul>
+<li>dependency graph</li>
+<li><strong>critical path is the longest path, assume every node take 1 cycle</strong><ul>
+<li>the length of critical path is 7, 9→ 12 → 13 → 14 → 15 →  16 → 17</li>
+</ul>
+</li>
+<li>
+<p>the average CPI for the dataflow graph is</p>
+<div class="arithmatex">\[
+CPI = \frac{\text{critical path number of cycles}}{\text{number of instructions}}
+\]</div>
+</li>
+<li>
+<p>therefore, CPI = 7 / 9</p>
+</li>
+</ul>
+<h3 id="instruction-level-parallelism-ilp">instruction level parallelism (ILP)</h3>
+<ul>
+<li>exists when multiple instructions can be executed at the same time</li>
+<li>instructions per cycle (IPC) = 1 / CPI</li>
+<li>the x86 does not have many registers to use, therefore, we need to<ul>
+<li>rename some of the architecture register to physical registers to use</li>
+</ul>
+</li>
+</ul>
+<h3 id="register-alias-table-rat">register alias table (RAT)</h3>
+<ul>
+<li>rename the architectural registers (r9, di, si) to physical registers (pr19, does not actually exist)</li>
+<li><strong>architectural registers:</strong><ul>
+<li>A register explicitly defined by the ISA and visible to the programmer through the instruction set.</li>
+</ul>
+</li>
+<li><strong>physical registers:</strong><ul>
+<li>A register in the CPU that stores instruction results, including uncommitted ones.</li>
+</ul>
+</li>
+</ul>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%205.png" /></p>
+<ol>
+<li>r9 is renamed to pr19, read from the table, <code>di</code> is mapped to <code>pr16</code>. therefore:</li>
+<li>suppose we rename the output to <code>pr20</code>, so <code>r9</code> is update to <code>pr20</code>. look up latest di and r9 before this row from the table. <code>di</code> maps to <code>pr16</code>, and <code>r9</code> maps to <code>pr19</code> </li>
+<li>suppose renam the output to <code>pr21</code>, it maps <code>ax</code> to <code>pr21</code></li>
+<li>
+<p>….</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Inputs</th>
+<th>Outputs</th>
+<th>Renamed Inputs</th>
+<th>Renamed Outputs</th>
+<th>%ax</th>
+<th>%di</th>
+<th>%r9</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mov %edi, %r9d</code></td>
+<td><code>di</code></td>
+<td><code>r9</code></td>
+<td><code>pr16</code></td>
+<td><code>pr19</code></td>
+<td>pr0</td>
+<td>pr16</td>
+<td>pr19</td>
+</tr>
+<tr>
+<td>imull %esi, %r9d</td>
+<td><code>di r9</code></td>
+<td><code>r9</code></td>
+<td><code>pr16 pr19</code></td>
+<td><code>pr20</code></td>
+<td></td>
+<td></td>
+<td>pr20</td>
+</tr>
+<tr>
+<td><code>mov %r9d, %eax</code></td>
+<td>r9</td>
+<td>ax</td>
+<td><code>pr20</code></td>
+<td><code>pr21</code></td>
+<td><code>pr21</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>mov %edx, %r9d</td>
+<td>dx</td>
+<td>r9</td>
+<td><code>pr3</code></td>
+<td><code>pr22</code></td>
+<td></td>
+<td></td>
+<td>pr22</td>
+</tr>
+<tr>
+<td>imull %edx, %r9d</td>
+<td>dx r9</td>
+<td><code>r9</code></td>
+<td><code>pr3</code> <code>pr22</code></td>
+<td><code>pr23</code></td>
+<td></td>
+<td></td>
+<td>pr23</td>
+</tr>
+<tr>
+<td>subl %r9d, %eax</td>
+<td>r9 ax</td>
+<td>ax</td>
+<td><code>pr23</code> <code>pr21</code></td>
+<td><code>pr24</code></td>
+<td>pr24</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>therefore, we simply the datagraph:</p>
+</li>
+</ol>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%206.png" /></p>
+<ul>
+<li>now it length of critical path = 4, CPI = 4/6, ILP = 6/4</li>
+</ul>
+<hr />
+<p>example: </p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%207.png" /></p>
+<table>
+<thead>
+<tr>
+<th>code</th>
+<th>inputs</th>
+<th>output</th>
+<th>rename input</th>
+<th>rename output</th>
+<th>%r0</th>
+<th>%r1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sub r1 = r1,r0</code></td>
+<td>r1, r0</td>
+<td>r1</td>
+<td>r1, r0</td>
+<td>r2</td>
+<td></td>
+<td>r2</td>
+</tr>
+<tr>
+<td><code>div r0 = r0, r1</code></td>
+<td>r0, r1</td>
+<td>r0</td>
+<td>r0, r2</td>
+<td>r3</td>
+<td>r3</td>
+<td></td>
+</tr>
+<tr>
+<td><code>add r0 = r1,r0</code></td>
+<td>r1, r0</td>
+<td>r0</td>
+<td>r2,r3</td>
+<td>r4</td>
+<td>r4</td>
+<td></td>
+</tr>
+<tr>
+<td><code>mul r1 = r0,r0</code></td>
+<td>r0</td>
+<td>r1</td>
+<td>r4</td>
+<td>r5</td>
+<td></td>
+<td>r5</td>
+</tr>
+<tr>
+<td><code>add r1 = r1, r0</code></td>
+<td>r1, r0</td>
+<td>r1</td>
+<td>r5, r4</td>
+<td>r6</td>
+<td></td>
+<td>r6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exploit-ilp">exploit ILP</h3>
+<h3 id="reorder-buffer-rob">reorder buffer (ROB)</h3>
+<ul>
+<li>CPU fetches many instructions keeps them in a reorder buffer</li>
+<li>each cycle CPU selects instructions with no remaining dependencies and exec them<ul>
+<li>since it can execute multiple instructions, CPI can be &lt; 1</li>
+</ul>
+</li>
+</ul>
+<h3 id="tomasulos-algorithm">Tomasulo’s Algorithm</h3>
+<blockquote>
+<p>enables <strong>out-of-order execution</strong> by allowing <strong>instructions to execute as soon as their operands become available</strong>.
+</p>
+</blockquote>
+<p><strong>Reservation Stations:</strong> Each instruction (uOp) is assigned a <strong>reservation station</strong>, which holds necessary operands and waits for execution.</p>
+<ul>
+<li><strong>Issuing Instructions:</strong><ul>
+<li>Instructions can issue <strong>when all input operands are available</strong>.</li>
+<li>If operands are missing, they are <strong>fetched</strong> from either:<ul>
+<li>The <strong>physical register file</strong> before entering the scheduler.</li>
+<li><strong>Broadcasted</strong> by an ALU (arthematic logic unit) after a previous instruction completes.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Execution Readiness:</strong> The table lists reservation stations and shows whether each instruction is ready to issue.</li>
+</ul>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%208.png" /></p>
+<ul>
+<li><strong>Reservation Station #0 (add)</strong> is <strong>ready to issue</strong> because:<ul>
+<li><strong>All input operands (pr10 and pr11) are available</strong>.</li>
+<li>It will <strong>broadcast pr21’s value</strong> (0x1aa34) after execution.</li>
+</ul>
+</li>
+<li><strong>Station #1 (sub)</strong> is <strong>waiting on pr21</strong> from station #0.</li>
+<li><strong>Station #2 (mult)</strong> is also <strong>waiting on pr21</strong>.</li>
+<li><strong>Station #3 (xor)</strong> is <strong>waiting on pr31</strong>, which is not available.</li>
+</ul>
+<p>execution:</p>
+<ul>
+<li><strong>Station #0 issues and completes execution.</strong></li>
+<li>It <strong>broadcasts pr21 = 0x1aa34</strong>.</li>
+<li><strong>Stations #1 and #2 receive pr21’s value</strong> and become <strong>ready to issue</strong>.</li>
+</ul>
+<h3 id="modern-iems">modern IEMs</h3>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%209.png" /></p>
+<h3 id="effective-instruction-latency">Effective instruction Latency</h3>
+<blockquote>
+<p>It is the time an instruction adds to the critical path, considering dependencies.
+</p>
+</blockquote>
+<hr />
+<p>example:</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2010.png" /></p>
+<ul>
+<li>1 cycle</li>
+<li>if it is not in the critical path, then the effective latency is 0</li>
+<li>if on CP, then latency is how many cycles it adds</li>
+</ul>
+<hr />
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2011.png" /></p>
+<ul>
+<li>the CP is mul → add r3 → add r4 → div → add r7<ul>
+<li>x is not in the critical path, therefore mem latency is 0</li>
+<li>y is in the critical path, therefore mem latency is 1</li>
+</ul>
+</li>
+</ul>
+<h3 id="effective-memory-latency">effective memory latency</h3>
+<ul>
+<li>long, at least 4 cycles, 100s of cycles max</li>
+<li>cache miss often on CP</li>
+</ul>
+<h3 id="latency-hiding">latency hiding</h3>
+<blockquote>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> </p>
+<p>(b)Parallel execution helps hide latency by allowing multiple instructions to proceed simultaneously.</p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> </p>
+<p>(c)It helps reduce the visible impact of instruction or memory latency by keeping the processor busy.</p>
+<p>Out of order execution allows the pipeline to hide the latency of some instructions.</p>
+</li>
+<li>
+<p>when there are 2 memory loads, one of them is hided from the CP</p>
+</li>
+</ul>
+</blockquote>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2012.png" /></p>
+<ul>
+<li>
+<ol>
+<li>the number of cycles is 4 * 5 = 20, the number of instructions is 10, therefore, average memroy latency is 20 / 10 = 2</li>
+</ol>
+</li>
+<li>what happen if the right all cache misses (<code>movq (%rsi), %rsi</code>) and take 12 cycles per load?<ul>
+<li>we call <strong>the misses hides the latency of hits, the hits are free</strong></li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2013.png" /></p>
+<ul>
+<li>C, the CP is 4 cycles, it hides the path</li>
+</ul>
+<hr />
+<p>example: find the max speedup</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2014.png" /></p>
+<ul>
+<li>we can speed up memory CPI to 1 cycle at max, so<ul>
+<li>improved memory time: 5 / 2.1 = 2.38</li>
+<li>new total time = (2.38 + 65) * 1.07 = <strong>72.096</strong></li>
+<li>the speed up = 70 / <strong>72.096 = 0.9709</strong></li>
+</ul>
+</li>
+<li>we already shown that even under the most optimal memory time, it would worsen the total execution time. since no matter how many load/store units we have we can never reach the optimal CPI, we can never get a better speed up.</li>
+<li>therefore, opt # is 1, and speed up = 0,97</li>
+</ul>
+<hr />
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/pipeline/image%2015.png" /></p>
+<h3 id="_1"></h3>
+<h2 id="1-fetch">1. fetch</h2>
+<ul>
+<li>retrieve instruction forom memory using program counter (PC)</li>
+<li>predict next PC</li>
+</ul>
+<h2 id="2-decode">2. decode</h2>
+<ul>
+<li>examine instruction and determine what it does</li>
+<li>decompose instructions in to uOPs</li>
+<li>enqueue resulting Uops in the decode queue</li>
+</ul>
+<h2 id="3-rf-read">3. RF read</h2>
+<ul>
+<li>the register operands for the instruction</li>
+<li>dequeue an uOp from the decode queue, and read register Operands for the instruction</li>
+</ul>
+<aside>
+💡
+
+data forwarding: It reduces stalls by passing an instruction's result directly to a dependent instruction in the next pipeline stage, bypassing the register file.
+
+</aside>
+
+<h2 id="4-executionmemory">4. execution/memory</h2>
+<ul>
+<li>perform  <strong>Uops</strong> arithematic operations and loads/stores</li>
+</ul>
+<h2 id="5-rf-write">5. RF write</h2>
+<ul>
+<li>update the register file</li>
+</ul>
+<h2 id="6-compute-next-pc-update-pc">6. compute next PC — update PC</h2>
+<ul>
+<li>if instruction is a branch, set PC according to outcome</li>
+<li>if not, increment PC to point to next instruction</li>
+<li>going back to fetch</li>
+</ul>
+<h2 id="problems-with-x86-instructional-set">problems with x86 instructional set</h2>
+<ul>
+<li>The amount of work per instruction varies.</li>
+<li>Variable length instructions make it hard to know where the next instruction starts.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../cache_aware_programming/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Cache Aware Programming">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Cache Aware Programming
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../parallelism/" class="md-footer__link md-footer__link--next" aria-label="Next: Parallelism">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Parallelism
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2021 Zilin Liu
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/zilin-l-17b71022b/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.code.select", "content.code.annotate", "content.footnote.tooltips", "navigation.footer", "navigation.top", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../../../js/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

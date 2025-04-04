@@ -1,0 +1,2465 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../pipeline/">
+      
+      
+        <link rel="next" href="../../CSE120/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Parallelism - Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M17%2013h-4v4h-2v-4H7v-2h4V7h2v4h4m-5-9A10%2010%200%200%200%202%2012a10%2010%200%200%200%2010%2010%2010%2010%200%200%200%2010-10A10%2010%200%200%200%2012%202%22/%3E%3C/svg%3E');}</style>
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
+      <link rel="stylesheet" href="../../../styles/fallback.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#parallelism" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Docs" class="md-header__button md-logo" aria-label="Docs" data-md-component="logo">
+      
+  <img src="../../../assets/icon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Parallelism
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="teal"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Docs" class="md-nav__button md-logo" aria-label="Docs" data-md-component="logo">
+      
+  <img src="../../../assets/icon.png" alt="logo">
+
+    </a>
+    Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Index
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    LeetCode
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            LeetCode
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../leetcode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Sorting
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Sorting
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../leetcode/sorting/sort_list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    sort linked list
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Angular
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Angular
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Platform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Platform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Components
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Components
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/component/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Components
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_3_2" id="__nav_4_2_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Material Components
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Material Components
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/angular_material/material_component/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/angular_material/form_control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Form Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/httpClient/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTTP Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/angular/signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Signals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Typescript
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Typescript
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/typescript/decorator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Decorator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Javascript
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Javascript
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/javascript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/javascript/async_await.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Async/Await
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/javascript/closures.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Closures
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/javascript/prototypes.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prototypes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4_5" id="__nav_4_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Data Structures
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Data Structures
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/javascript/ds/arrays/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arrays
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    MKDocs
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            MKDocs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/mkdocs/common_errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Common Errors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Class Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Class Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CSE 142
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            CSE 142
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cache_aware_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cache Aware Programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    pipelining
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Parallelism
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Parallelism
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#taxonomy-of-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Taxonomy of Execution
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    ECE 140B
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            ECE 140B
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ECE140B/team_proposal.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Team Proposal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CSE 120
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            CSE 120
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CSE120/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CSE120/OS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Temp
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Temp
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../jobs/ADRs/NHCS-622.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ADR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="parallelism">Parallelism</h1>
+<p>Created: March 15, 2025 1:58 PM
+Tags: Computer Hardware</p>
+<h3 id="taxonomy-of-execution">Taxonomy of Execution</h3>
+<ul>
+<li>SISD - single instruction, single data<ul>
+<li>eg:  add: sum 2 numbers and produce one result</li>
+</ul>
+</li>
+<li>MIMD - multiple instruction, multiple data<ul>
+<li>eg: multi-core</li>
+</ul>
+</li>
+<li>SIMD - single instruction, multiple data<ul>
+<li>eg: one instruction operates many values, like add 2 array elements element wise</li>
+<li>vector</li>
+</ul>
+</li>
+</ul>
+<h1 id="threads">threads</h1>
+<ul>
+<li>a thread is a flow of control<ul>
+<li>a program counter</li>
+<li>a stack</li>
+<li>a set of registers</li>
+</ul>
+</li>
+<li>all threads in one program share the same memory space<ul>
+<li>same data table</li>
+<li>and how they communicate with each other (Mutexes)</li>
+</ul>
+</li>
+</ul>
+<h3 id="non-determism">non-determism</h3>
+<ul>
+<li>paralell program results are not determined</li>
+<li>outcome depends on how the memory acccess are <strong>interleaved</strong></li>
+</ul>
+<h3 id="multi-thread-pe">multi thread PE</h3>
+<ul>
+<li>suppose all treads do equal work, there are T threads</li>
+<li>in the best case, each thread does 1/T of total work</li>
+</ul>
+<div class="arithmatex">\[
+ET_\text{perThread} = IC_\text{perThread}+CPI_\text{perThread}+CT_\text{perThread}
+\]</div>
+<div class="arithmatex">\[
+CT_\text{perThread} \approx CT
+\]</div>
+<div class="arithmatex">\[
+IC_\text{perThread} = IC/T
+\]</div>
+<div class="arithmatex">\[
+CPI_\text{perThread} = CPI
+\]</div>
+<ul>
+<li>CT may drop due to thermal effect, IC, CPI my increase due to sync. overhead</li>
+</ul>
+<p>$$</p>
+<p>ET_\text{perThread} = ET / T \
+\text{speed up} = T
+$$</p>
+<h3 id="multi-processor-memory-system">multi processor memory system</h3>
+<ul>
+<li>a complete processor contains<ul>
+<li>pipeline</li>
+<li>L1, L2 cache, they are private to each CPU</li>
+</ul>
+</li>
+<li>L3 cache is shared among CPUs</li>
+<li>comm latency is not uniform, varies based on the distance to other CPUs or memory banks</li>
+</ul>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image.png" /></p>
+<h3 id="cache-line-invalidation">Cache line invalidation</h3>
+<ul>
+<li>caused by a store in one of the CPU’s L1,L2 cache, and needs to be synced across all cores</li>
+<li>caches are  <strong>coherent, managed by coherence protocal</strong><ul>
+<li>all cores agree the same content of memory</li>
+<li>allows multiple headers, ensures there is only even one writer</li>
+</ul>
+</li>
+</ul>
+<h3 id="coherence-misses">coherence misses</h3>
+<blockquote>
+<p>A miss that occurs in a multiprocessor system when a cache block is invalidated because another processor modified the shared data.</p>
+<ul>
+<li>a cache miss is a coherence miss - if the cache line was there but it is invalidated</li>
+<li>suppose in CPU 1, x=10 is updated to 20, the CPU 2 where x = 10 will be invalidated and force fetch from the updated value</li>
+</ul>
+</blockquote>
+<h3 id="load-cache-miss">load cache miss</h3>
+<ul>
+<li>can come from<ul>
+<li>The L1, L2cache on a different core.</li>
+<li>main memory</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>example: </p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%201.png" /></p>
+<ul>
+<li>here is what gonna happen, in one random run:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Coherence action</th>
+<th>CPU A cache</th>
+<th>CPU B cache</th>
+<th>memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A: t = array[0]</td>
+<td>A - compulsory cache miss</td>
+<td>[10,11,12,13]</td>
+<td>…</td>
+<td>[10,11,12,13]</td>
+</tr>
+<tr>
+<td>A:  array[0] = 11</td>
+<td>A- cache hit</td>
+<td>[11,11,12,13]</td>
+<td>…</td>
+<td>[10,11,12,13]</td>
+</tr>
+<tr>
+<td>B: t = array[0]</td>
+<td>B - compulsory cache miss, copy from A</td>
+<td>[11,11,12,13]</td>
+<td>[11,11,12,13]</td>
+<td>[10,11,12,13]</td>
+</tr>
+<tr>
+<td>B:  array[0] = 12</td>
+<td>B - cache hit, invalidate A</td>
+<td>invalidate</td>
+<td>[12,11,12,13]</td>
+<td>[10,11,12,13]</td>
+</tr>
+<tr>
+<td>A: t = array[1]</td>
+<td>A - coherence cache miss, copy from B</td>
+<td>[12,11,12,13]</td>
+<td>[12,11,12,13]</td>
+<td>[10,11,12,13]</td>
+</tr>
+<tr>
+<td>A:  array[1] = 12</td>
+<td>A- cache hit, invalidate B</td>
+<td>[12,12,12,13]</td>
+<td>invalidate</td>
+<td>[10,11,12,13]</td>
+</tr>
+<tr>
+<td>B: t = array[1]</td>
+<td>B - coherance cache miss, copy from A</td>
+<td>[12,12,12,13]</td>
+<td>[12,12,12,13]</td>
+<td>[10,11,12,13]</td>
+</tr>
+<tr>
+<td>B:  array[1] = 13</td>
+<td>B - cache hit, invalidate A</td>
+<td>invalidate</td>
+<td>[12,13,12,13]</td>
+<td>[10,11,12,13]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="locks">locks</h3>
+<blockquote>
+<p>lock make sure other threads cannot access the resources this thread already used. MAKE SURE TO <code>UNLOCK after</code></p>
+<ul>
+<li>we can define lock: <code>std:mutex lock</code></li>
+</ul>
+</blockquote>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%202.png" /></p>
+<ul>
+<li>is the program deterministc?<ul>
+<li>NO, if B executes before A, result is different</li>
+</ul>
+</li>
+</ul>
+<h3 id="cost-of-sharing-memory">cost of sharing memory</h3>
+<ul>
+<li>copying and invaliding cache lines are expensive and takes a lot of time</li>
+<li>writing is a big deal, however, sharing READ ONLY is not a problem<ul>
+<li>sharing leads to coherence misses</li>
+</ul>
+</li>
+<li>we can do<ul>
+<li>per-thread data structure</li>
+<li>minimize lock acquire/release</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>example:</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%203.png" /></p>
+<ul>
+<li>there will be compulsory misses, 1 per cache line get</li>
+<li>there will be a lot coherence misses, since lock is also shared across processors.<ul>
+<li>lock/unlock lock will invalidate others.</li>
+</ul>
+</li>
+</ul>
+<h3 id="resolve-thread-data-conherence-misses">resolve thread data conherence misses</h3>
+<ul>
+<li>give each thread own data</li>
+<li>merge at the end</li>
+</ul>
+<hr />
+<h3 id="false-sharing">false sharing</h3>
+<p>example:</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%204.png" /></p>
+<ul>
+<li>the program is determinstic</li>
+<li>although there is no sharing between the threads, there are still coherence misses, because we shared the cache lines but not the data</li>
+<li><strong>law of sharing:</strong> all small, shared, more than very occcasionally updatd objects should be cache line aligned.</li>
+</ul>
+<aside>
+💡
+
+locks are cache line aligned 
+
+to avoid false sharing, we need to make sure the data accessed by diferent cores are not in the same cache line, to do this, we might need to pad some junk data in between 2 non-shared data, for example:
+
+<div class="language-c highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">non_share_a</span><span class="p">;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kt">int</span><span class="p">[</span><span class="mi">32</span><span class="p">]</span><span class="w"> </span><span class="n">junks</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">non_shared_b</span>
+</span></code></pre></div>
+
+</aside>
+
+<hr />
+<p>example:</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%205.png" /></p>
+<ul>
+<li>there is only 1 compulsory misses when each processor loads, therefore we can ignore it</li>
+<li>since bar fields are cached on the same cache line, a lot of coherence miss will occur</li>
+</ul>
+<h1 id="use-threads">Use Threads</h1>
+<h3 id="openmp-open-multiprocessing">OpenMP (open multiprocessing)</h3>
+<ul>
+<li>high level API for parallelism C and C++ code</li>
+<li>relatively easy</li>
+<li>most applicable to paralleizing simple loops</li>
+</ul>
+<h3 id="a-openmp-requires-manual-thread-creation-and-synchronization">❌ <strong>(a) OpenMP requires manual thread creation and synchronization.</strong></h3>
+<ul>
+<li><strong>Incorrect</strong> because OpenMP <strong>automatically handles</strong> thread creation and workload distribution using simple directives (e.g., <code>#pragma omp parallel</code>).</li>
+<li>Unlike <strong>pthreads</strong>, where manual thread management is required.</li>
+<li><code>#pragma omp critical</code><ul>
+<li>To enforce mutual exclusion, allowing only one thread to execute the enclosed code at a time</li>
+</ul>
+</li>
+</ul>
+<h3 id="pthreadsc-threads">pthreads/C++ threads</h3>
+<ul>
+<li>low level API</li>
+<li>relatively hard</li>
+</ul>
+<hr />
+<p>example:</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%206.png" /></p>
+<ul>
+<li>the working set size is 256 *8 = 2kb, this is a relatively small working set and can be cached without capacity miss on modern design. therefore, tilling does not help much</li>
+<li>function inlining does not help because <code>__attribute__((noinline))</code> is defined, which explicitly tell the complier not to inlineing the function</li>
+<li><strong>loop unrolling</strong> would help, it reduce overhead</li>
+<li>there is no redudent execution so common sub-expression elimination dont help</li>
+<li>
+<p>splot loop does not help since it does not address memroy access patterns or memory redundency</p>
+</li>
+<li>
+<p>now, suppose we have N threads, and each process 1/N of data</p>
+<ul>
+<li>
+<p>suppose we use lock to protect increment of histogram[b]</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%207.png" /></p>
+</li>
+<li>
+<p>what is speed up of 6 threads</p>
+<ul>
+<li>it would be even worse, because the lock transfer produce a lot of coherence misses, which essentially cause all the threads to wait for the other to update + additional coherence misses and validations</li>
+<li>
+<p>to improve</p>
+<ul>
+<li>currently, we have shared buckets, and shared lock for all threads</li>
+<li>we can improve a little by make a private lock for each bucket (therefore threads dont contests locks a lot (since lock occupy entire cacheline, so no coherence misses here)<ul>
+<li>but the threads still needs to wait to write into the historgram bucket <code>b</code>, this will still cause massive coherence misses</li>
+</ul>
+</li>
+<li>
+<p><strong>use thread-private buckets:</strong> create 256 * 6  buckets, so each thread will have their own buckets for the histogram, and in the end we need to combine them.  ****in this case, define cache line like <code>buckets[bucket_num*thread_count + thread_id] = val</code> for each loop</p>
+<ul>
+<li>it has a good speedup, but the coherence miss still present.</li>
+<li>
+<p>since the buckets are created like following continous pattern, and each bucket is an int, multiple buckets would be on the same cacheline, and when one of them gets updated, a <strong>false sharing</strong>  would still occur to invalidate all other buckets in the same cache, even they are unrelated. this still cause coherence misses</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%208.png" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p>to fix it, we <strong>can use thread-private buckets and let each bucket occupy entire cache line.</strong> in this case, define buckets as <code>buckets[thread_id * 256 + bucket_number ] = val</code> for each loop. therefore, <strong>instead of same bucket number from different threads are adjacent to each other, we make same threads buckets adjacent to each other.</strong> therefore, we avoid most coherence misses, there are still some coherence misses possible in the cache line that contains buckets from differnt threads.</p>
+<ul>
+<li>
+<p>and we also eliminated all locks!</p>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%209.png" /></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img alt="original" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%2010.png" /></p>
+<p>original</p>
+<p><img alt="private lock for each shared bucket " src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%2011.png" /></p>
+<p>private lock for each shared bucket </p>
+<p><img alt="private bucket for each thread, grouped by bucket numbers" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%2012.png" /></p>
+<p>private bucket for each thread, grouped by bucket numbers</p>
+<p><img alt="private buckets for each thread,  grouped by threads" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%2013.png" /></p>
+<p>private buckets for each thread,  grouped by threads</p>
+<h3 id="summary-parallelism-speedup">summary parallelism speedup</h3>
+<ul>
+<li>we need to do some aggressive optimization that complier cannot do for us<ul>
+<li>eliminate (or reduce) lock contention</li>
+<li>eliminate false sharing</li>
+<li>eliminate true sharing</li>
+<li>redesign our data structure to do above</li>
+</ul>
+</li>
+<li><strong>private caches</strong><ul>
+<li>most modern processors<ul>
+<li>L1, L2  are private caches to each core<ul>
+<li>provides faster access to frequently used data for single core</li>
+</ul>
+</li>
+<li>when the cached values gets update in the other core, coherence manager invalidates cache in this core so the next time this core needs to access the value, it will copy from the updated cache to ensure memory consistency</li>
+<li>in addition, <strong>registers files are private to each core</strong><ul>
+<li><strong>registers can not be shared</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>shared caches</strong><ul>
+<li>LLC (l3) is typicall shared amongst cores to help access data without going to memory</li>
+<li>shared cache access time is different for different cores</li>
+</ul>
+</li>
+<li><strong>coherence</strong><ul>
+<li>L1, L2 cache value is same across</li>
+<li>L3, DRAM, and other further storage (DIMM) value is same</li>
+<li>cached value can be <strong>different</strong> in the above 2 groups</li>
+</ul>
+</li>
+<li><strong>threads</strong><ul>
+<li>a thread has their own <strong>register file (incl. PC), L1, L2 cache</strong></li>
+<li>to make use of multi processors</li>
+<li>share the same address space with other threads in the same program</li>
+</ul>
+</li>
+</ul>
+<aside>
+💡
+
+SMT - simultaneous multithreading 
+
+</aside>
+
+<h1 id="vector-and-simd">Vector, and SIMD</h1>
+<ul>
+<li>where a single isntruction operates on multiple data values of same type</li>
+<li>for example, adding 2 vector element wise</li>
+</ul>
+<p><img alt="image.png" src="https://pub-150e39e3c65c4688a57a2770a98f3fa5.r2.dev/class_notes/CSE142/parallelism/image%2014.png" /></p>
+<ul>
+<li>CPI = 1, cycles/addition = 0,25<ul>
+<li>floating point, huge arrays<ul>
+<li>machine learning</li>
+<li>scientifc computing</li>
+</ul>
+</li>
+<li>floating point, short arrays<ul>
+<li>3D graphics</li>
+</ul>
+</li>
+<li>media (mixed float/int)</li>
+</ul>
+</li>
+</ul>
+<h3 id="arithmetic-instructions">🔹 Arithmetic Instructions</h3>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Description</th>
+<th>Width</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ADDPS</code></td>
+<td>Add packed single-precision floats</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>ADDPD</code></td>
+<td>Add packed double-precision floats</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>VADDPS</code></td>
+<td>Add packed single-precision floats</td>
+<td>256/512-bit</td>
+</tr>
+<tr>
+<td><code>MULPS</code></td>
+<td>Multiply packed single-precision floats</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>VMULPS</code></td>
+<td>Multiply packed single-precision floats</td>
+<td>256/512-bit</td>
+</tr>
+<tr>
+<td><code>SUBPS</code></td>
+<td>Subtract packed floats</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>VSUBPS</code></td>
+<td>Subtract packed floats (AVX)</td>
+<td>256/512-bit</td>
+</tr>
+<tr>
+<td><code>DIVPS</code></td>
+<td>Divide packed single-precision floats</td>
+<td>128-bit</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="logical-instructions">🔹 Logical Instructions</h3>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Description</th>
+<th>Width</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ANDPS</code></td>
+<td>Bitwise AND of packed floats</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>VANDPS</code></td>
+<td>Bitwise AND of packed floats (AVX)</td>
+<td>256/512-bit</td>
+</tr>
+<tr>
+<td><code>ORPS</code></td>
+<td>Bitwise OR</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>XORPS</code></td>
+<td>Bitwise XOR</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>VORPS</code></td>
+<td>Bitwise OR (AVX)</td>
+<td>256/512-bit</td>
+</tr>
+<tr>
+<td><code>VXORPS</code></td>
+<td>Bitwise XOR (AVX)</td>
+<td>256/512-bit</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="data-movement">🔹 Data Movement</h3>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Description</th>
+<th>Width</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MOVAPS</code></td>
+<td>Move aligned packed floats</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>MOVUPS</code></td>
+<td>Move unaligned packed floats</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>VMOVAPS</code></td>
+<td>Move aligned packed floats (AVX)</td>
+<td>256/512-bit</td>
+</tr>
+<tr>
+<td><code>VMOVUPS</code></td>
+<td>Move unaligned packed floats (AVX)</td>
+<td>256/512-bit</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="permute-shuffle">🔹 Permute / Shuffle</h3>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Description</th>
+<th>Width</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SHUFPS</code></td>
+<td>Shuffle packed floats</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>VSHUFPS</code></td>
+<td>Shuffle packed floats (AVX)</td>
+<td>256/512-bit</td>
+</tr>
+<tr>
+<td><code>PERMPS</code></td>
+<td>Permute single-precision floats (AVX2)</td>
+<td>256-bit</td>
+</tr>
+<tr>
+<td><code>VPERMQ</code></td>
+<td>Permute 64-bit elements (AVX2/AVX-512)</td>
+<td>256/512-bit</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="comparison-masking">🔹 Comparison / Masking</h3>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Description</th>
+<th>Width</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CMPPS</code></td>
+<td>Compare packed floats</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>VCMPPS</code></td>
+<td>Compare packed floats (AVX)</td>
+<td>256/512-bit</td>
+</tr>
+<tr>
+<td><code>BLENDPS</code></td>
+<td>Blend packed floats based on mask</td>
+<td>128-bit</td>
+</tr>
+<tr>
+<td><code>VBLENDVPS</code></td>
+<td>Variable blend using mask (AVX)</td>
+<td>256-bit</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../pipeline/" class="md-footer__link md-footer__link--prev" aria-label="Previous: pipelining">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                pipelining
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../CSE120/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2021 Zilin Liu
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/zilin-l-17b71022b/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.code.select", "content.code.annotate", "content.footnote.tooltips", "navigation.footer", "navigation.top", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../../../js/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
