@@ -60,6 +60,7 @@ markdown_extensions:
     - md_in_html
     - pymdownx.arithmatex:
           generic: true
+    - tables
 
 extra:
     social:
@@ -122,5 +123,11 @@ nav:
                 - Cache Aware Programming: class_notes/CSE142/cache_aware_programming.md
                 - pipelining: class_notes/CSE142/pipeline.md
                 - Parallelism: class_notes/CSE142/parallelism.md
+          - ECE 140B:
+                - Team Proposal: class_notes/ECE140B/team_proposal.md
+          - CSE 120:
+                - Overview: class_notes/CSE120/index.md
+                - OS: class_notes/CSE120/OS.md
+                
     - Temp:
           - ADR: jobs/ADRs/NHCS-622.md
